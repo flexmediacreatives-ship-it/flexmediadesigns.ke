@@ -1,194 +1,27 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
-<title>Admin — Flex Media Designs</title>
-<link rel="icon" href="../assets/images/flex-media-logo.webp">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-<style>
-:root{--o:#FF6A00;--od:#B84300;--n:#061456;--cream:#F6F0E6;--c2:#EDE3D3;--ink:#261913;--mu:#6f655c;--ln:#E0D6C6;--ok:#1a7f45;--er:#b3261e}
-*{box-sizing:border-box}body{margin:0;font:15px/1.5 Manrope,"Segoe UI",Arial,sans-serif;background:var(--cream);color:var(--ink);padding-bottom:90px}
-h1,h2,h3{font-family:Montserrat,Arial,sans-serif;color:var(--n);margin:0}
-header{background:var(--n);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:14px;border-bottom:4px solid var(--o)}header h1{color:#fff;font-size:18px}header small{color:var(--c2);font-weight:400}
-main{max-width:1180px;margin:0 auto;padding:24px 18px}
-.card{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:20px;margin-bottom:18px}
-label{display:block;font-weight:700;font-size:13px;margin:12px 0 4px}input[type=text],input[type=password],select{width:100%;padding:9px 10px;border:1px solid #cfc3ae;border-radius:6px;font:inherit;background:#fff}
-button{font:700 14px Manrope,sans-serif;padding:9px 16px;border-radius:6px;border:2px solid var(--n);background:var(--n);color:#fff;cursor:pointer}button.ghost{background:#fff;color:var(--n)}button.go{background:var(--o);border-color:var(--o);color:var(--n)}button:disabled{opacity:.45;cursor:not-allowed}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}.tabs button{background:#fff;color:var(--n);border-color:var(--ln)}.tabs button.on{background:var(--n);color:#fff;border-color:var(--n)}
-.msg{margin-top:10px;font-weight:600}.msg.er{color:var(--er)}.msg.ok{color:var(--ok)}.hint{color:var(--mu);font-size:13px;margin:4px 0 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.it{border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fff;display:flex;flex-direction:column}.it.new{border-color:var(--o);box-shadow:0 0 0 2px #ffe6d2}
-.it .th{height:170px;background:var(--c2);display:grid;place-items:center;position:relative}.it .th img{max-width:100%;max-height:100%;object-fit:contain}.it .th input{position:absolute;top:8px;left:8px;width:18px;height:18px}
-.it .bd{padding:10px;display:grid;gap:6px}.it select,.it input[type=text]{padding:6px 8px;font-size:13px}.sz{font-size:12px;color:var(--mu)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.row>div{flex:1;min-width:200px}
-.slot{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;border:1px solid var(--ln);border-radius:8px;padding:12px;margin-bottom:12px}.slot img{width:200px;height:130px;object-fit:cover;border-radius:6px;background:var(--c2)}.slot h3{font-size:16px;margin-bottom:8px}
-.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:3px solid var(--o);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:5}
-dialog{border:0;border-radius:10px;padding:0;width:min(980px,94vw);max-height:88vh}dialog::backdrop{background:rgba(6,20,86,.55)}dialog .in{padding:18px;overflow:auto;max-height:86vh}
-.pk{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.pk button{padding:0;border:2px solid var(--ln);background:#fff;height:100px;overflow:hidden}.pk button:hover{border-color:var(--o)}.pk img{width:100%;height:100%;object-fit:cover}
-[hidden]{display:none!important}@media(max-width:640px){.slot{grid-template-columns:1fr}.slot img{width:100%}}
-</style></head><body>
-<header><img src="../assets/images/flex-media-logo.webp" alt="" width="36" height="36"><h1>Flex Media Designs <small>Admin tool</small></h1></header>
-<main>
-<section class="card" id="connect"><h2>Connect to GitHub</h2>
-<p class="hint">Use a fine-grained token limited to this repository with “Contents: Read and write”. The token stays in this browser tab unless you tick the box below.</p>
-<div class="row"><div><label for="repo">Repository (owner/name)</label><input type="text" id="repo" placeholder="your-name/flexmediadesigns.ke"></div><div><label for="branch">Branch</label><input type="text" id="branch" value="main"></div></div>
-<label for="token">Access token</label><input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
-<label style="font-weight:400"><input type="checkbox" id="remember"> Remember the token on this device</label>
-<p><button id="btnConnect" class="go">Connect and load the site</button></p><div class="msg" id="cMsg"></div></section>
-
-<div id="app" hidden>
-<div class="tabs" id="tabs"><button data-t="upload" class="on">Upload designs</button><button data-t="gallery">Gallery categories</button><button data-t="home">Homepage pictures</button><button data-t="work">Our Work pictures</button></div>
-
-<section class="card" data-p="upload"><h2>Upload new designs</h2>
-<p class="hint">Every image is converted to compressed WebP in your browser before it is sent to GitHub. Anything that cannot be converted is rejected.</p>
-<div class="row"><div><label for="defCat">Category for this batch (required)</label><select id="defCat"></select></div><div><label for="files">Choose images</label><input type="file" id="files" accept="image/*" multiple></div></div>
-<div class="msg" id="uMsg"></div><h3 style="margin:18px 0 10px">Ready to publish</h3><div class="grid" id="newGrid"></div></section>
-
-<section class="card" data-p="gallery" hidden><h2>Recategorize designs</h2>
-<div class="row"><div><label for="flt">Show</label><select id="flt"></select></div><div><label for="bulk">Move selected designs to</label><select id="bulk"></select></div><div style="flex:0"><button id="btnBulk" class="ghost">Move selected</button></div><div style="flex:0"><button id="btnAll" class="ghost">Select all shown</button></div></div>
-<div class="grid" id="galGrid" style="margin-top:16px"></div></section>
-
-<section class="card" data-p="home" hidden><h2>Homepage slider</h2><p class="hint">One picture for each word. Wide pictures with the subject on the right crop best.</p><div id="heroSlots"></div></section>
-<section class="card" data-p="work" hidden><h2>Our Work panels</h2><p class="hint">The background picture shown on each of the four panels.</p><div id="workSlots"></div></section>
-</div></main>
-
-<div class="bar"><span id="pend">Not connected</span><div><span class="msg" id="pMsg" style="margin-right:12px"></span><button id="btnPub" class="go" disabled>Publish to GitHub</button></div></div>
-<dialog id="dlg"><div class="in"><div class="row"><div><h2>Choose a picture</h2></div><div style="flex:0"><button class="ghost" id="dClose">Close</button></div></div>
-<label for="dUp">Or upload a new picture</label><input type="file" id="dUp" accept="image/*"><div class="msg" id="dMsg"></div><div id="dList"></div></div></dialog>
-
-<script>
-(()=>{"use strict";
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const TYPES={promo:["Flyers"],campaign:["Flyers"],posters:["Posters","Banners"],brand:["Logo Design","Packaging Designs","Label Designs","Print Layouts","Business Cards","Brochures"]};
-const LIM={gallery:[1800,450],hero:[2200,600],work:[1600,350]}; // [longest edge px, target KB]
-const IMG=/\.(webp|jpe?g|png)$/i,P3=["js/hero-config.js","js/work-config.js","gallery.json"];
-let S={},G=[],H={},W={},files=new Map(),dirty={g:0,h:0,w:0},pickCb=null;
-
-/* ---------- GitHub ---------- */
-async function gh(p,o={}){const r=await fetch("https://api.github.com/repos/"+S.repo+p,Object.assign({},o,{headers:{Authorization:"Bearer "+S.token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28","Content-Type":"application/json"}}));
- if(!r.ok){const m={401:"GitHub rejected the token.",403:"The token cannot write to this repository (needs Contents: Read and write).",404:"Repository or branch not found, or the token cannot see it.",409:"The branch changed while publishing. Reload and try again.",422:"GitHub refused the update. Reload and try again."}[r.status]||"GitHub error "+r.status;throw new Error(m)}return r.json()}
-const blobText=async sha=>{const b=await gh("/git/blobs/"+sha);return new TextDecoder().decode(Uint8Array.from(atob(b.content.replace(/\n/g,"")),c=>c.charCodeAt(0)))};
-const evalCfg=t=>{const w={};new Function("window",t)(w);return w};
-async function snapshot(){const ref=await gh("/git/ref/heads/"+S.branch),c=await gh("/git/commits/"+ref.object.sha),t=await gh("/git/trees/"+c.tree.sha+"?recursive=1");return{head:ref.object.sha,tree:c.tree.sha,list:t.tree}}
-async function load(){
- const s=await snapshot();Object.assign(S,{head:s.head,treeSha:s.tree,list:s.list,sha:{}});
- const get=p=>{const e=s.list.find(x=>x.path===p);if(!e)throw new Error("Missing "+p+" in the repository.");S.sha[p]=e.sha;return blobText(e.sha)};
- const [hc,wc,gj]=await Promise.all(P3.map(get));
- H=evalCfg(hc).HERO_CONFIG;W=evalCfg(wc).WORK_CONFIG;const g=JSON.parse(gj);S.gShape=Array.isArray(g)?"arr":"obj";
- G=(g.images||g).filter(x=>x&&x.src).map(x=>{if(!x.cat||!W.cats[x.cat]){const c=guess(x);x.cat=c.cat;x.service=x.service||c.service}return x});
- files.clear();dirty={g:0,h:0,w:0};
-}
-function guess(it){const a=(W.assign||{})[it.src];if(a)return{cat:a[0],service:a[1]};const t=(it.title||it.src).toLowerCase();
- if(/vote|elect|chair|secretar|treasur|nominee|candidate|campaign/.test(t))return{cat:"campaign",service:"Flyers"};
- if(/banner/.test(t))return{cat:"posters",service:"Banners"};if(/poster/.test(t))return{cat:"posters",service:"Posters"};
- if(/logo/.test(t))return{cat:"brand",service:"Logo Design"};if(/packag/.test(t))return{cat:"brand",service:"Packaging Designs"};
- if(/label/.test(t))return{cat:"brand",service:"Label Designs"};if(/certificate|brochure|card/.test(t))return{cat:"brand",service:"Print Layouts"};
- return{cat:"promo",service:"Flyers"}}
-
-/* ---------- WebP conversion ---------- */
-async function toWebp(file,kind){
- const [edge,kb]=LIM[kind],bmp=await createImageBitmap(file,{imageOrientation:"from-image"});
- let w=bmp.width,h=bmp.height,k=Math.min(1,edge/Math.max(w,h)),q=.86;
- if(file.type==="image/webp"&&file.size<=kb*1024&&k===1)return{blob:file,w,h};
- for(let i=0;i<8;i++){
-  const cw=Math.round(w*k),ch=Math.round(h*k),c=document.createElement("canvas");c.width=cw;c.height=ch;
-  const x=c.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(bmp,0,0,cw,ch);
-  const b=await new Promise(r=>c.toBlob(r,"image/webp",q));
-  if(!b||b.type!=="image/webp")throw new Error("This browser cannot create WebP. Use Chrome, Edge or Firefox.");
-  if(b.size<=kb*1024||i===7)return{blob:b,w:cw,h:ch};
-  if(q>.75)q-=.04;else k*=.88}
-}
-const slug=t=>t.toLowerCase().replace(/\.[a-z0-9]+$/,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"design";
-const exists=p=>S.list.some(x=>x.path===p)||files.has(p);
-function freePath(dir,name){let b=slug(name),p=dir+b+".webp",n=2;while(exists(p))p=dir+b+"-"+n++ +".webp";return p}
-const kbs=b=>Math.round(b.size/1024)+" KB";
-async function stage(file,kind,dir,name){const r=await toWebp(file,kind),p=freePath(dir,name||file.name);files.set(p,{blob:r.blob,url:URL.createObjectURL(r.blob),w:r.w,h:r.h});return p}
-
-/* ---------- Rendering ---------- */
-const catOpts=sel=>Object.keys(W.cats).map(k=>`<option value="${k}"${k===sel?" selected":""}>${esc(W.cats[k].title)}</option>`).join("");
-const typeOpts=(c,sel)=>{const l=TYPES[c]||[];if(sel&&l.indexOf(sel)<0)l.concat([sel]);return(l.indexOf(sel)<0&&sel?l.concat([sel]):l).map(t=>`<option${t===sel?" selected":""}>${esc(t)}</option>`).join("")};
-const thumb=p=>files.has(p)?files.get(p).url:"../"+encodeURI(p);
-function card(it,i,sel){const p="assets/images/gallery/"+it.src,f=files.get(p);
- return`<div class="it${f?" new":""}" data-i="${i}"><div class="th"><img loading="lazy" src="${thumb(p)}" alt="">${sel?'<input type="checkbox" class="sel" aria-label="Select">':""}</div><div class="bd">
- <input type="text" class="ti" value="${esc(it.title||"")}" aria-label="Title"><select class="ct">${catOpts(it.cat)}</select><select class="sv">${typeOpts(it.cat,it.service)}</select>
- ${f?`<span class="sz">WebP ${kbs(f.blob)} · ${f.w}×${f.h}</span><button class="ghost rm">Remove</button>`:""}</div></div>`}
-function render(){
- const fl=$("#flt").value||"all";
- $("#newGrid").innerHTML=G.map((it,i)=>files.has("assets/images/gallery/"+it.src)?card(it,i,false):"").join("")||'<p class="hint">Nothing yet. Choose images above.</p>';
- $("#galGrid").innerHTML=G.map((it,i)=>fl==="all"||it.cat===fl?card(it,i,true):"").reverse().join("");
- const cnt={};G.forEach(x=>cnt[x.cat]=(cnt[x.cat]||0)+1);
- $("#flt").innerHTML=`<option value="all">All designs (${G.length})</option>`+Object.keys(W.cats).map(k=>`<option value="${k}"${k===fl?" selected":""}>${esc(W.cats[k].title)} (${cnt[k]||0})</option>`).join("");
- const hp=f=>f.indexOf("/")>-1?f:"assets/images/hero/"+f;
- $("#heroSlots").innerHTML=H.images.map((f,i)=>slot("h"+i,(H.words||[])[i]||"Slide "+(i+1),thumb(hp(f)))).join("");
- $("#workSlots").innerHTML=Object.keys(W.cats).map(k=>slot("w"+k,W.cats[k].title,thumb(W.cats[k].bg))).join("");
- const n=[...files.keys()].filter(p=>p.indexOf("/gallery/")>-1).length,ch=[dirty.g&&"gallery",dirty.h&&"homepage",dirty.w&&"Our Work"].filter(Boolean);
- $("#pend").textContent=ch.length?`Unpublished: ${ch.join(", ")}${n?` · ${n} new image${n>1?"s":""}`:""}`:"No unpublished changes";$("#btnPub").disabled=!ch.length;
-}
-const slot=(id,t,src)=>`<div class="slot"><img src="${src}" alt=""><div><h3>${esc(t)}</h3><button class="ghost pick" data-id="${id}">Change picture</button></div></div>`;
-const redraw=()=>{const y=scrollY;render();scrollTo(0,y)};
-
-/* ---------- Events ---------- */
-$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;$$("#tabs button").forEach(x=>x.classList.toggle("on",x===b));$$("section[data-p]").forEach(s=>s.hidden=s.dataset.p!==b.dataset.t)};
-document.addEventListener("change",e=>{const c=e.target.closest(".it");if(!c)return;const it=G[+c.dataset.i],t=e.target;let ch=false;
- if(t.classList.contains("ti")){const v=t.value.trim();if(v!==(it.title||"")){it.title=v;ch=true}}
- else if(t.classList.contains("sv")){if(t.value!==it.service){it.service=t.value;ch=true}}
- else if(t.classList.contains("ct")){if(t.value!==it.cat){it.cat=t.value;it.service=TYPES[it.cat][0];ch=true}}
- if(!ch)return; /* ticking a selection box must not re-draw the grid */
- dirty.g=1;redraw()});
-document.addEventListener("click",e=>{
- const rm=e.target.closest(".rm");if(rm){const i=+rm.closest(".it").dataset.i,p="assets/images/gallery/"+G[i].src;URL.revokeObjectURL(files.get(p).url);files.delete(p);G.splice(i,1);dirty.g=G.some(x=>files.has("assets/images/gallery/"+x.src))||dirty.g;redraw()}
- const pk=e.target.closest(".pick");if(pk)openPicker(pk.dataset.id)});
-$("#btnAll").onclick=()=>$$("#galGrid .sel").forEach(c=>c.checked=true);
-$("#btnBulk").onclick=()=>{const c=$("#bulk").value,ids=$$("#galGrid .sel:checked").map(x=>+x.closest(".it").dataset.i);if(!ids.length){return}
- ids.forEach(i=>{if(G[i].cat!==c){G[i].cat=c;G[i].service=TYPES[c][0]}});dirty.g=1;redraw()};
-$("#flt").onchange=render;
-$("#files").onchange=async e=>{const m=$("#uMsg");m.className="msg";let ok=0;
- if(!$("#defCat").value){m.className="msg er";m.textContent="Choose a category for this batch first, then select the images.";e.target.value="";return}
- for(const f of e.target.files){m.textContent="Converting "+f.name+"…";
-  try{const p=await stage(f,"gallery","assets/images/gallery/",f.name),c=$("#defCat").value,ti=f.name.replace(/\.[^.]+$/,"").replace(/[-_]+/g," ").trim();
-   G.push({src:p.split("/").pop(),title:ti,cat:c,service:TYPES[c][0],w:files.get(p).w,h:files.get(p).h});ok++;dirty.g=1}
-  catch(er){m.className="msg er";m.textContent=f.name+": "+er.message;e.target.value="";render();return}}
- m.className="msg ok";m.textContent=ok+" image"+(ok===1?"":"s")+" converted to WebP. You can still change each design\u2019s category below, then publish.";e.target.value="";render()};
-
-/* picker */
-function openPicker(id){const dl=$("#dList"),seen=new Set(),groups={"Gallery":[],"Homepage":[],"Services":[],"Other":[]};
- [...S.list.map(x=>x.path),...files.keys()].forEach(p=>{if(seen.has(p)||!IMG.test(p)||p.indexOf("assets/images/")!==0||p.indexOf("/portfolio/")>-1)return;seen.add(p);
-  groups[p.indexOf("/gallery/")>-1?"Gallery":p.indexOf("/hero/")>-1?"Homepage":p.indexOf("/services/")>-1?"Services":"Other"].push(p)});
- dl.innerHTML=Object.keys(groups).filter(g=>groups[g].length).map(g=>`<h3 style="margin:16px 0 8px">${g}</h3><div class="pk">${groups[g].map(p=>`<button data-p="${esc(p)}" title="${esc(p.split("/").pop())}"><img loading="lazy" src="${thumb(p)}" alt=""></button>`).join("")}</div>`).join("");
- const hero=id[0]==="h";pickCb=async p=>{if(hero){const i=+id.slice(1),pre="assets/images/hero/";H.images[i]=p.indexOf(pre)===0&&p.indexOf("/",pre.length)<0?p.slice(pre.length):p;dirty.h=1}else{W.cats[id.slice(1)].bg=p;dirty.w=1}$("#dlg").close();redraw()};
- pickCb.kind=hero?"hero":"work";pickCb.dir=hero?"assets/images/hero/":"assets/images/work/";$("#dMsg").textContent="";$("#dlg").showModal()}
-$("#dList").onclick=e=>{const b=e.target.closest("button[data-p]");if(b)pickCb(b.dataset.p)};
-$("#dClose").onclick=()=>$("#dlg").close();
-$("#dUp").onchange=async e=>{const f=e.target.files[0];if(!f)return;const m=$("#dMsg");m.className="msg";m.textContent="Converting…";
- try{pickCb(await stage(f,pickCb.kind,pickCb.dir,f.name))}catch(er){m.className="msg er";m.textContent=er.message}e.target.value=""};
-
-/* connect */
-$("#btnConnect").onclick=async()=>{const m=$("#cMsg");m.className="msg";
- S={repo:$("#repo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\.git$|\/$/g,""),branch:$("#branch").value.trim()||"main",token:$("#token").value.trim()};
- if(!/^[\w.-]+\/[\w.-]+$/.test(S.repo)||!S.token){m.className="msg er";m.textContent="Enter the repository as owner/name and paste your token.";return}
- m.textContent="Loading…";
- try{await load();localStorage.setItem("fmd_adm",JSON.stringify({repo:S.repo,branch:S.branch,token:$("#remember").checked?S.token:""}));
-  $("#defCat").innerHTML='<option value="">Choose a category…</option>'+catOpts("");$("#bulk").innerHTML=catOpts("promo");$("#connect").hidden=false;$("#app").hidden=false;m.className="msg ok";m.textContent="Connected. "+G.length+" designs loaded.";render()}
- catch(er){m.className="msg er";m.textContent=er.message}};
-try{const s=JSON.parse(localStorage.getItem("fmd_adm")||"null");if(s){$("#repo").value=s.repo||"";$("#branch").value=s.branch||"main";$("#token").value=s.token||"";$("#remember").checked=!!s.token}}catch(e){}
-
-/* publish */
-const b64=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result.split(",")[1]);f.readAsDataURL(b)});
-$("#btnPub").onclick=async()=>{const m=$("#pMsg"),btn=$("#btnPub");m.className="msg";btn.disabled=true;
- try{m.textContent="Checking the repository…";const s=await snapshot();
-  for(const p of P3){const e=s.list.find(x=>x.path===p);if(!e||e.sha!==S.sha[p])throw new Error("Site settings changed on GitHub since you loaded this page. Reload the page and repeat your changes.")}
-  const tree=[],used=new Set();
-  const add=async(path,content,enc)=>{const b=await gh("/git/blobs",{method:"POST",body:JSON.stringify({content,encoding:enc})});tree.push({path,mode:"100644",type:"blob",sha:b.sha})};
-  const pics=[...G.map(x=>"assets/images/gallery/"+x.src),...H.images.map(f=>f.indexOf("/")>-1?f:"assets/images/hero/"+f),...Object.values(W.cats).map(c=>c.bg)];pics.forEach(p=>used.add(p));
-  let n=0;const up=[...files.keys()].filter(p=>used.has(p));
-  for(const p of up){m.textContent=`Uploading image ${++n} of ${up.length}…`;await add(p,await b64(files.get(p).blob),"base64")}
-  m.textContent="Saving settings…";
-  if(dirty.g){const imgs=G.map(x=>{const o=Object.assign({},x);return{src:o.src,title:o.title,cat:o.cat,service:o.service,w:o.w,h:o.h,...(o.date?{date:o.date}:{})}});await add("gallery.json",JSON.stringify({images:imgs},null,2)+"\n","utf-8")}
-  if(dirty.h)await add("js/hero-config.js","/* Homepage slider. Pictures are chosen in /admin-tool/ (words and taglines can be edited here). */\nwindow.HERO_CONFIG = "+JSON.stringify(H,null,2)+";\n","utf-8");
-  if(dirty.w)await add("js/work-config.js","/* Our Work panels. Panel pictures and each design's category are set in /admin-tool/. \"assign\" is only a fallback for designs without a category. */\nwindow.WORK_CONFIG = "+JSON.stringify(W,null,2)+";\n","utf-8");
-  const t=await gh("/git/trees",{method:"POST",body:JSON.stringify({base_tree:s.tree,tree})}),
-   c=await gh("/git/commits",{method:"POST",body:JSON.stringify({message:"Admin tool: update designs and site pictures",tree:t.sha,parents:[s.head]})});
-  await gh("/git/refs/heads/"+S.branch,{method:"PATCH",body:JSON.stringify({sha:c.sha})});
-  await load();render();m.className="msg ok";m.textContent="Published. The live site updates in about a minute."}
- catch(er){m.className="msg er";m.textContent=er.message;btn.disabled=false}};
-})();
-</script></body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#061456">
+<title>FLEX MEDIA DESIGNS — Graphic Design & Media Production</title><meta name="description" content="Creative graphic design and media production by FLEX MEDIA DESIGNS. Flyers, posters, logos, packaging, video and photography."><meta property="og:title" content="FLEX MEDIA DESIGNS — Graphic Design & Media Production"><meta property="og:description" content="Creative graphic design and media production by FLEX MEDIA DESIGNS. Flyers, posters, logos, packaging, video and photography."><meta property="og:type" content="website">
+<link rel="icon" href="assets/images/flex-media-logo.webp" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&family=Montserrat:wght@300;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css"><link rel="stylesheet" href="css/home.css"></head><body>
+<header class="site-header"><a class="brand" href="index.html" aria-label="FLEX MEDIA DESIGNS home"><img src="assets/images/flex-media-logo.webp" alt="" width="50" height="50"><span class="brand-name">Flex Media<b>Designs</b></span></a>
+<button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav" aria-label="Main"><a href="our-services.html">Our Services</a><a href="our-work.html">Our Work</a><a href="contact-us.html">Contact Us</a></nav></header>
+<main><section class="hero" aria-label="Welcome">
+<div class="edge"></div>
+<div class="sheet">
+<div class="copy">
+<div class="count" aria-hidden="true"><b id="n">01</b><span id="t">/ 04</span></div>
+<div class="word-wrap"><h1 class="word">CONCEPTUALIZE</h1></div>
+<p id="tag">Every idea starts as a spark</p>
+<div class="cta"><a class="go" href="our-services.html">Our Services</a><a class="go line" href="our-work.html">Our Work</a></div>
+</div>
+<div class="ctrl"><div class="dots" aria-hidden="true"></div>
+<div class="row"><div class="arrows"><button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><button id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button></div>
+<div class="socials"><a href="https://www.instagram.com/salasia769/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/share/1G5sG8GXUS/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.tiktok.com/@thee_flexor" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.1 4.2 5 4.5"/></svg></a><a href="https://youtube.com/@flexmedia_ke" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg></a><a href="https://wa.me/254724660864" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.6-4.8A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 8.5c0 3 2.5 5.5 6 6.5l1.3-1.5-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></svg></a></div></div></div>
+</div>
+<span class="sr" id="cur" aria-live="off">CONCEPTUALIZE</span>
+</section></main>
+<footer class="site-footer"><a class="brand" href="index.html" aria-label="FLEX MEDIA DESIGNS home"><img src="assets/images/flex-media-logo.webp" alt="" width="50" height="50"></a><div class="socials"><a href="https://www.instagram.com/salasia769/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/share/1G5sG8GXUS/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.tiktok.com/@thee_flexor" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.4 2.6 2.1 4.2 5 4.5"/></svg></a><a href="https://youtube.com/@flexmedia_ke" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg></a><a href="https://wa.me/254724660864" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.6-4.8A8.5 8.5 0 1 1 8 19.5z"/><path d="M9 8.5c0 3 2.5 5.5 6 6.5l1.3-1.5-2-1-1 .8c-1-.4-2-1.4-2.4-2.4l.8-1-1-2z"/></svg></a></div>
+<div class="fb"><span>© <span id="yr"></span> FLEX MEDIA DESIGNS</span><span>Designed By FLEX MEDIA</span></div></footer>
+<script src="js/work-config.js"></script><script src="js/hero-config.js"></script><script src="js/site.js"></script><script src="js/home.js"></script></body></html>

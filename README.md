@@ -22,3 +22,6 @@ To change service names/descriptions, edit the `SERVICES` list in `build.py`, ru
 
 ## Kept from your old site
 `gallery-manager.html`, `upload/`, `bulk/`, `admin/`, `gallery.json`, `site-settings.json`, `vercel.json`, `netlify.toml` and all images.
+
+## Admin tool
+`/admin-tool/` (see `admin-tool/GUIDE.md`) uploads designs as compressed WebP, recategorizes existing designs, and chooses the homepage slider pictures and the four Our Work panel pictures.

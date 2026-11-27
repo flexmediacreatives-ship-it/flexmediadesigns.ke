@@ -20,7 +20,7 @@ IC={"ig":f'<svg viewBox="0 0 24 24" {S}><rect x="3" y="3" width="18" height="18"
 "ml":f'<svg viewBox="0 0 24 24" {S}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>'}
 SOC=[("ig","Instagram","https://www.instagram.com/salasia769/"),("fb","Facebook","https://www.facebook.com/share/1G5sG8GXUS/"),("tt","TikTok","https://www.tiktok.com/@thee_flexor"),("yt","YouTube","https://youtube.com/@flexmedia_ke"),("wa","WhatsApp","https://wa.me/254724660864")]
 socials='<div class="socials">'+''.join(f'<a href="{u}" target="_blank" rel="noopener noreferrer" aria-label="{n}">{IC[k]}</a>' for k,n,u in SOC)+'</div>'
-def head(title,desc,active,body_cls=""):
+def head(title,desc,active,body_cls="",css_extra=""):
     nav=[("our-services.html","Our Services"),("our-work.html","Our Work"),("contact-us.html","Contact Us")]
     links=''.join(f'<a href="{h}"{" class=on" if h==active else ""}>{t}</a>' for h,t in nav)
     return f'''<!doctype html>
@@ -29,22 +29,32 @@ def head(title,desc,active,body_cls=""):
 <link rel="icon" href="assets/images/flex-media-logo.webp" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&family=Montserrat:wght@300;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css"></head><body{body_cls}>
+<link rel="stylesheet" href="css/site.css">{css_extra}</head><body{body_cls}>
 <header class="site-header"><a class="brand" href="index.html" aria-label="FLEX MEDIA DESIGNS home"><img src="assets/images/flex-media-logo.webp" alt="" width="50" height="50"><span class="brand-name">Flex Media<b>Designs</b></span></a>
 <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav" aria-label="Main">{links}</nav></header>
 '''
-def foot(extra=""):
+def foot(extra="",js_extra=""):
     return f'''<footer class="site-footer"><a class="brand" href="index.html" aria-label="FLEX MEDIA DESIGNS home"><img src="assets/images/flex-media-logo.webp" alt="" width="50" height="50"></a>{socials}
 <div class="fb"><span>© <span id="yr"></span> FLEX MEDIA DESIGNS</span><span>Designed By FLEX MEDIA</span></div></footer>
-{extra}<script src="js/work-config.js"></script><script src="js/hero-config.js"></script><script src="js/site.js"></script></body></html>'''
+{extra}<script src="js/work-config.js"></script><script src="js/hero-config.js"></script><script src="js/site.js"></script>{js_extra}</body></html>'''
 def w(n,t): open(n,'w').write(t)
 
-w("index.html",head("FLEX MEDIA DESIGNS — Graphic Design & Media Production","Creative graphic design and media production by FLEX MEDIA DESIGNS. Flyers, posters, logos, packaging, video and photography.","index.html")+f'''<main><section class="hero" aria-label="Welcome">
+w("index.html",head("FLEX MEDIA DESIGNS — Graphic Design & Media Production","Creative graphic design and media production by FLEX MEDIA DESIGNS. Flyers, posters, logos, packaging, video and photography.","index.html",css_extra='<link rel="stylesheet" href="css/home.css">')+f'''<main><section class="hero" aria-label="Welcome">
+<div class="edge"></div>
+<div class="sheet">
+<div class="copy">
+<div class="count" aria-hidden="true"><b id="n">01</b><span id="t">/ 04</span></div>
 <div class="word-wrap"><h1 class="word">CONCEPTUALIZE</h1></div>
-{socials}<div class="dots" aria-hidden="true"></div>
-<div class="hero-cap"><div class="arrows"><button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" {S}><path d="M15 5l-7 7 7 7"/></svg></button><button id="next" aria-label="Next"><svg viewBox="0 0 24 24" {S}><path d="M9 5l7 7-7 7"/></svg></button></div>
-<small id="cur">CONCEPTUALIZE</small><hr><p id="tag">Every idea starts as a spark</p></div></section></main>
-'''+foot())
+<p id="tag">Every idea starts as a spark</p>
+<div class="cta"><a class="go" href="our-services.html">Our Services</a><a class="go line" href="our-work.html">Our Work</a></div>
+</div>
+<div class="ctrl"><div class="dots" aria-hidden="true"></div>
+<div class="row"><div class="arrows"><button id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" {S}><path d="M15 5l-7 7 7 7"/></svg></button><button id="next" aria-label="Next"><svg viewBox="0 0 24 24" {S}><path d="M9 5l7 7-7 7"/></svg></button></div>
+{socials}</div></div>
+</div>
+<span class="sr" id="cur" aria-live="off">CONCEPTUALIZE</span>
+</section></main>
+'''+foot(js_extra='<script src="js/home.js"></script>'))
 
 cards=''.join(f'<article class="svc reveal"><div class="ph"><img loading="lazy" src="assets/images/services/{im}" alt="{n}"><span class="no">{i+1:02d}</span></div><div class="bd"><h3>{n}</h3><p>{d}</p><a class="more" href="contact-us.html?service={n.replace(" & ","%20%26%20").replace(" ","%20")}">Request this service →</a></div></article>' for i,(k,n,d,im) in enumerate(SERVICES))
 w("our-services.html",head("Our Services — FLEX MEDIA DESIGNS","Everything FLEX MEDIA DESIGNS offers: flyers, banners, posters, logos, business cards, labels, brochures, video, photography and packaging.","our-services.html")+f'''<main><section class="page-hero tight"><span class="eyebrow">What we do</span><h1>Our Services</h1><p>From a single flyer to a full brand identity, we design and produce the pieces that help your idea get seen.</p></section>
