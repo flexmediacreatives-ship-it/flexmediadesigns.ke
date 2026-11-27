@@ -10,20 +10,21 @@
 /* the cream panel with the brand's slanted edge, and a thin orange edge behind it */
 .hero .edge,.hero .sheet{position:absolute;top:0;bottom:0;left:0;clip-path:polygon(0 0,100% 0,calc(100% - var(--sl)) 100%,0 100%)}
 .hero .edge{z-index:3;width:calc(var(--pw) + 16px);background:var(--orange)}
-.hero .sheet{z-index:4;width:var(--pw);background:var(--cream);display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--hh) + clamp(24px,5vh,60px)) 0 clamp(28px,5vh,52px) var(--pad)}
-.hero .copy,.hero .ctrl{max-width:calc(var(--pw) - var(--sl) - var(--pad) - 3vw)}
+.hero .sheet{z-index:4;width:var(--pw);background:var(--cream);display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--hh) + clamp(16px,3vh,40px)) calc(var(--sl)/2 + var(--pad)) clamp(28px,5vh,52px) var(--pad)}
+.hero .copy{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 0}
+.hero .ctrl{width:100%;max-width:560px;margin:0 auto}
 
-.count{display:flex;align-items:baseline;gap:8px;font:800 13px/1 var(--font);letter-spacing:.14em;color:var(--muted);margin-bottom:clamp(14px,3vh,28px)}
+.count{display:flex;justify-content:center;align-items:baseline;gap:8px;font:800 13px/1 var(--font);letter-spacing:.14em;color:var(--muted);margin-bottom:clamp(14px,3vh,28px)}
 .count b{font-size:15px;color:var(--ink)}
 
 .hero .word-wrap{position:static;display:block;padding:0;pointer-events:auto;place-items:start;justify-items:start}
 .hero .word{background:none;box-shadow:none;padding:0;color:var(--ink);font:800 clamp(2.4rem,4.9vw,5.8rem)/1 var(--font);letter-spacing:-.04em;text-transform:lowercase;animation:rise .8s cubic-bezier(.2,.8,.2,1) both;overflow-wrap:normal}
 .hero .word::first-letter{text-transform:uppercase}
-.hero .word::after{content:"";display:block;width:84px;height:6px;background:var(--orange);margin-top:clamp(14px,2.6vh,26px)}
+.hero .word::after{content:"";display:block;width:84px;height:6px;background:var(--orange);margin:clamp(14px,2.6vh,26px) auto 0}
 @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
 
 #tag{margin-top:clamp(16px,3vh,28px);font:500 clamp(1.05rem,1.55vw,1.45rem)/1.45 var(--body);color:var(--brown)}
-.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(20px,4vh,40px)}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:clamp(20px,4vh,40px)}
 .hero .go{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;font:800 12px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;background:var(--orange);color:var(--ink);border:2px solid var(--orange);transition:background .25s,color .25s,border-color .25s}
 .hero .go:hover{background:var(--ink);border-color:var(--ink);color:var(--cream)}
 .hero .go.line{background:transparent;border-color:var(--ink)}.hero .go.line:hover{background:var(--ink);color:var(--cream)}
@@ -46,11 +47,11 @@
  .hero .slide{left:0;right:0;top:0;bottom:auto;height:50svh}
  .hero .edge,.hero .sheet{top:auto;width:100%;clip-path:polygon(0 var(--sl),100% 0,100% 100%,0 100%)}
  .hero .edge{height:calc(54svh + 10px)}
- .hero .sheet{height:54svh;padding:calc(var(--sl) + 8px) var(--pad) 22px}
- .hero .copy,.hero .ctrl{max-width:none}
+ .hero .sheet{height:54svh;padding:calc(var(--sl) + 4px) var(--pad) 20px}
+ .hero .ctrl{max-width:none}
  .count{display:none}
  .hero .word{font-size:clamp(2.2rem,11vw,3.4rem)}
- .hero .word::after{width:56px;height:5px;margin-top:12px}
+ .hero .word::after{width:56px;height:5px;margin:12px auto 0}
  #tag{font-size:1rem;margin-top:12px}
  .cta{margin-top:16px;flex-wrap:nowrap}.hero .go{min-height:46px;padding:0 10px;flex:1 1 0;letter-spacing:.08em;font-size:11px;white-space:nowrap}
  .hero .dots{margin-bottom:12px}
