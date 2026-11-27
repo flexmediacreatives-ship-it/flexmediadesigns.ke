@@ -60,8 +60,8 @@ h1,h2,h3{font-family:var(--font);text-transform:uppercase;letter-spacing:-.02em;
 .cta-band h2{font-size:clamp(1.4rem,3vw,2.2rem);color:#fff}.cta-band .btn{background:var(--cream);border-color:var(--cream);color:var(--orange)}.cta-band .btn:hover{background:var(--brown);border-color:var(--brown);color:#fff}
 /* work panels (text sits on photos, so it stays light) */
 .panels{--s:6vw;display:flex;height:100vh;height:100svh;min-height:560px;max-height:820px;background:var(--cream);overflow:hidden}
-.panel{position:relative;flex:none;width:calc((100% + 3 * var(--s)) / 4);margin-left:calc(-1 * var(--s));overflow:hidden;clip-path:polygon(var(--s) 0,100% 0,calc(100% - var(--s)) 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:0 calc(var(--s) + 14px) 40px 34px;color:var(--ink)}
-.panel:first-child{margin-left:0;clip-path:polygon(0 0,100% 0,calc(100% - var(--s)) 100%,0 100%)}.panel:last-child{clip-path:polygon(var(--s) 0,100% 0,100% 100%,0 100%)}
+.panel{position:relative;flex:none;width:calc(25% + var(--s));margin-left:calc(-1 * var(--s));overflow:hidden;clip-path:polygon(var(--s) 0,100% 0,calc(100% - var(--s)) 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:0 calc(var(--s) + 14px) 40px calc(34px + var(--s) / 2);color:var(--ink)}
+.panel:first-child{width:calc(25% + var(--s) / 2);padding-left:34px;margin-left:0;clip-path:polygon(0 0,100% 0,calc(100% - var(--s)) 100%,0 100%)}.panel:last-child{width:calc(25% + var(--s) / 2);clip-path:polygon(var(--s) 0,100% 0,100% 100%,0 100%)}
 .panel .bg{position:absolute;inset:-2%;background-size:cover;background-position:center top;transition:transform .9s}.panel:hover .bg{transform:scale(1.08)}
 .panel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:255px;background:var(--cream)}
 .panel>*:not(.bg){position:relative;z-index:2}.panel h2{color:var(--ink);font-weight:900;font-size:clamp(1.5rem,3.3vw,3rem);letter-spacing:-.06em;line-height:.95}
@@ -110,7 +110,7 @@ main .btn{color:var(--navy)}main .btn:hover{color:#fff}
 main .btn.ghost{color:var(--ink)}main .btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
 main .svc a.more{color:var(--blue)}main .svc a.more:hover{color:var(--orange-dk)}
 main .cta-band .btn{background:var(--orange);border-color:var(--orange);color:var(--navy)}main .cta-band .btn:hover{background:#fff;border-color:#fff;color:var(--navy)}
-main .panel::after{background:var(--navy)}main .panel h2{color:#fff}main .panel .cnt{color:var(--orange-lt)}
+main .panel .cnt{color:var(--orange-dk)}
 main .chips button:hover{border-color:var(--blue);color:var(--blue)}
 main .tile .cap{background:var(--navy);color:#fff}main .tile .cap em{color:var(--orange-lt)}
 main .form input:focus,main .form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,56,181,.16)}
