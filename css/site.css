@@ -13,7 +13,7 @@ body{font-family:var(--body);background:var(--cream);color:var(--ink);line-heigh
 img{display:block;max-width:100%}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--orange);outline-offset:3px}
 /* header */
-.site-header{border-bottom:3px solid var(--orange);position:fixed;inset:0 0 auto 0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:22px var(--pad);background:rgba(255,253,248,.98);backdrop-filter:blur(10px);transition:padding .35s,box-shadow .35s}
+.site-header{position:fixed;inset:0 0 auto 0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:22px var(--pad);background:rgba(255,253,248,.98);backdrop-filter:blur(10px);transition:padding .35s,box-shadow .35s}
 
 .site-header.scrolled{padding-block:14px;box-shadow:0 6px 24px rgba(6,20,86,.12)}
 .brand{display:inline-flex;align-items:center;gap:12px}.brand img{width:50px;height:50px;object-fit:contain}

@@ -62,3 +62,6 @@
 
 /* homepage keeps its original text colours */
 main{--ink:#261913;--muted:#6f655c}
+
+/* orange line under the header: homepage only */
+.site-header{border-bottom:3px solid var(--orange)}
