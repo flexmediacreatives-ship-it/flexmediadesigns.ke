@@ -48,7 +48,7 @@ w("index.html",head("FLEX MEDIA DESIGNS — Graphic Design & Media Production","
 '''+foot())
 
 cards=''.join(f'<article class="svc reveal"><div class="ph"><img loading="lazy" src="assets/images/services/{im}" alt="{n}"><span class="no">{i+1:02d}</span></div><div class="bd"><h3>{n}</h3><p>{d}</p><a class="more" href="contact-us.html?service={n.replace(" & ","%20%26%20").replace(" ","%20")}">Request this service →</a></div></article>' for i,(k,n,d,im) in enumerate(SERVICES))
-w("our-services.html",head("Our Services — FLEX MEDIA DESIGNS","Everything FLEX MEDIA DESIGNS offers: flyers, banners, posters, logos, business cards, labels, brochures, video, photography and packaging.","our-services.html")+f'''<main><section class="page-hero"><span class="eyebrow">What we do</span><h1>Our Services</h1><p>From a single flyer to a full brand identity, we design and produce the pieces that help your idea get seen.</p></section>
+w("our-services.html",head("Our Services — FLEX MEDIA DESIGNS","Everything FLEX MEDIA DESIGNS offers: flyers, banners, posters, logos, business cards, labels, brochures, video, photography and packaging.","our-services.html")+f'''<main><section class="page-hero tight"><span class="eyebrow">What we do</span><h1>Our Services</h1><p>From a single flyer to a full brand identity, we design and produce the pieces that help your idea get seen.</p></section>
 <section class="section"><div class="svc-grid">{cards}</div></section>
 <div class="cta-band reveal"><h2>Have a project in mind?</h2><a class="btn" href="contact-us.html">Start a conversation</a></div></main>
 '''+foot())
