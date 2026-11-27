@@ -46,6 +46,7 @@ h1,h2,h3{font-family:var(--font);text-transform:uppercase;letter-spacing:-.02em;
 .page-hero h1{font-size:clamp(2.3rem,6vw,4.6rem);font-weight:800}.page-hero h1::after,.rule::after{content:"";display:block;width:70px;height:3px;background:var(--orange);margin-top:22px}
 .page-hero p{max-width:640px;margin-top:22px;font-size:clamp(1rem,1.6vw,1.25rem);font-weight:400;color:var(--muted)}
 .section{padding:70px var(--pad)}
+.page-hero.tight{padding-bottom:26px}.page-hero.tight+.section{padding-top:26px}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:#fff;border:2px solid var(--orange);font:800 12px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;padding:16px 26px;transition:.25s;position:relative}
 .btn:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:translateY(-2px);box-shadow:0 10px 26px rgba(10,56,181,.28)}.btn.ghost{background:transparent;border-color:var(--ink);color:var(--ink)}.btn.ghost:hover{border-color:var(--orange);color:var(--orange);background:transparent;box-shadow:none}
 /* services */
@@ -113,6 +114,8 @@ main .tile .cap{background:var(--navy);color:#fff}main .tile .cap em{color:var(-
 main .form input:focus,main .form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,56,181,.16)}
 main .sv span:hover{border-color:var(--blue)}
 main .card{border:2px solid var(--blue);border-radius:16px}main .card .ic{border-radius:11px}main a.card:hover{border-color:var(--navy)}
+/* contact page: bring the cards closer to the intro text */
+main .page-hero:has(+ .section .cwrap){padding-bottom:30px}main .section:has(.cwrap){padding-top:24px}
 .lb{background:rgba(0,8,40,.96)}.lb .t{color:#fff}.lb .t em{color:var(--orange-lt)}.lb .ord{color:var(--navy)}
 @media(max-width:900px){
  .burger{display:block}.nav{position:fixed;inset:0;background:var(--soft);flex-direction:column;justify-content:center;align-items:center;gap:30px;opacity:0;visibility:hidden;transition:.35s;z-index:90}.nav a{font-size:18px}.menu-open .nav{opacity:1;visibility:visible}
