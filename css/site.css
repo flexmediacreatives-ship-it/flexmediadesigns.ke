@@ -110,7 +110,7 @@ main .btn{color:var(--navy)}main .btn:hover{color:#fff}
 main .btn.ghost{color:var(--ink)}main .btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
 main .svc a.more{color:var(--blue)}main .svc a.more:hover{color:var(--orange-dk)}
 main .cta-band .btn{background:var(--orange);border-color:var(--orange);color:var(--navy)}main .cta-band .btn:hover{background:#fff;border-color:#fff;color:var(--navy)}
-main .panel .cnt{color:var(--orange-dk)}
+main .panel::after{background:var(--steel)}main .panel h2{color:#fff}main .panel .cnt{color:var(--orange-lt)}
 main .chips button:hover{border-color:var(--blue);color:var(--blue)}
 main .tile .cap{background:var(--navy);color:#fff}main .tile .cap em{color:var(--orange-lt)}
 main .form input:focus,main .form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,56,181,.16)}
