@@ -111,7 +111,8 @@ main .panel::after{background:var(--navy)}main .panel h2{color:#fff}main .panel 
 main .chips button:hover{border-color:var(--blue);color:var(--blue)}
 main .tile .cap{background:var(--navy);color:#fff}main .tile .cap em{color:var(--orange-lt)}
 main .form input:focus,main .form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,56,181,.16)}
-main .sv span:hover,main a.card:hover{border-color:var(--blue)}
+main .sv span:hover{border-color:var(--blue)}
+main .card{border:2px solid var(--blue);border-radius:16px}main .card .ic{border-radius:11px}main a.card:hover{border-color:var(--navy)}
 .lb{background:rgba(0,8,40,.96)}.lb .t{color:#fff}.lb .t em{color:var(--orange-lt)}.lb .ord{color:var(--navy)}
 @media(max-width:900px){
  .burger{display:block}.nav{position:fixed;inset:0;background:var(--soft);flex-direction:column;justify-content:center;align-items:center;gap:30px;opacity:0;visibility:hidden;transition:.35s;z-index:90}.nav a{font-size:18px}.menu-open .nav{opacity:1;visibility:visible}
