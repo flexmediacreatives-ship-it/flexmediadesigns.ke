@@ -1,0 +1,48 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+site_url: /
+display_url: /
+logo_url: /assets/images/flex-media-logo.webp
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "site_settings"
+    label: "Business Details"
+    files:
+      - name: "public_settings"
+        label: "Contact and Website Details"
+        file: "site-settings.json"
+        format: "json"
+        fields:
+          - { label: "Business Name", name: "businessName", widget: "string" }
+          - { label: "Primary Email", name: "contactEmail", widget: "string", hint: "Email address shown on the website and used by email links." }
+          - { label: "WhatsApp Number", name: "whatsappNumber", widget: "string", hint: "Kenyan country code format without +, spaces or leading zero, e.g. 254724660864." }
+          - { label: "Display Phone", name: "displayPhone", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "text" }
+          - { label: "Contact Introduction", name: "contactIntro", widget: "text" }
+  - name: "gallery"
+    label: "Customers Gallery"
+    files:
+      - name: "customers_gallery"
+        label: "Gallery Images"
+        file: "gallery.json"
+        format: "json"
+        media_folder: "/assets/images/gallery"
+        public_folder: "/assets/images/gallery"
+        fields:
+          - label: "Images"
+            name: "images"
+            widget: "list"
+            label_singular: "Image"
+            summary: "{{fields.title}}"
+            hint: "Add Image to upload a design. The newest date always shows first on the website."
+            fields:
+              - { label: "Design image", name: "src", widget: "image" }
+              - { label: "Caption (optional)", name: "title", widget: "string", required: false }
+              - { label: "Date uploaded", name: "date", widget: "datetime", default: "{{now}}", required: false, hint: "Newest date shows first in the gallery." }

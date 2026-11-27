@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Site Updater — FLEX MEDIA DESIGNS</title>
+<style>
+:root{--o:#ff6900;--bg:#f6f4f2;--c:#fff;--t:#1d1b1a;--m:#6b6560;--b:#ddd6cf}
+@media(prefers-color-scheme:dark){:root{--bg:#161413;--c:#211e1c;--t:#f1ece8;--m:#a39a93;--b:#38332f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.5 system-ui,Segoe UI,Arial,sans-serif}
+main{max-width:720px;margin:0 auto;padding:20px 16px 60px}h1{margin:.2em 0}h1 span{color:var(--o)}
+.card{background:var(--c);border:1px solid var(--b);border-radius:12px;padding:16px;margin:14px 0}
+h2{font-size:1.05rem;margin:0 0 8px}p,small,li{color:var(--m)}label{display:block;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;padding:10px;border:1px solid var(--b);border-radius:8px;background:var(--bg);color:var(--t);font:inherit}
+button{background:var(--o);color:#fff;border:0;border-radius:8px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}button.alt{background:transparent;color:var(--t);border:1px solid var(--b)}
+.drop{border:2px dashed var(--b);border-radius:12px;padding:26px 10px;text-align:center;cursor:pointer;color:var(--m)}
+.drop.over{border-color:var(--o);color:var(--o)}a{color:var(--o)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.row{grid-template-columns:1fr}}
+#log{white-space:pre-wrap;font:13px/1.5 ui-monospace,Consolas,monospace;max-height:320px;overflow:auto;color:var(--t)}
+.ok{color:#18a058;font-weight:700}.err{color:#d03050;font-weight:700}
+</style></head><body><main>
+<h1>Site <span>Updater</span></h1>
+<p>Pick your <b>hero</b> and <b>gallery</b> pictures (or one zip). They are converted to WebP and published in one go.</p>
+
+<details class="card" id="settings"><summary><b>1. Connection</b> (once per device)</summary>
+<label for="repo">GitHub repository</label><input id="repo" placeholder="Flexortech/flex-media-designs.ke" autocomplete="off">
+<label for="branch">Branch</label><input id="branch" value="main">
+<label for="token">Access token</label><input id="token" type="password" placeholder="github_pat_…" autocomplete="off">
+<small>Saved only in this browser. Same token as your /upload/ page works here.</small></details>
+
+<section class="card"><h2>2. Add your pictures</h2>
+<div class="row"><div class="drop" id="dh" tabindex="0">Tap or drop <b>hero</b> pictures<br><small>homepage background</small></div>
+<div class="drop" id="dg" tabindex="0">Tap or drop <b>gallery</b> designs<br><small>Customers Gallery</small></div></div>
+<input id="fh" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+<input id="fg" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+<input id="zip" type="file" accept=".zip,application/zip" hidden>
+<p><small>You can pick as many as you like, in several rounds. Prefer a zip? <a href="#" id="zl">Choose a zip</a> (folders “hero” and “gallery”).</small></p>
+<p id="scan"></p><button class="alt" id="clr" type="button">Clear list</button></section>
+
+<section class="card"><h2>3. Options</h2><div class="row">
+<div><label for="hmode">Hero pictures</label><select id="hmode"><option value="replace">Replace all hero pictures</option><option value="add">Add to existing</option></select></div>
+<div><label for="gmode">Gallery designs</label><select id="gmode"><option value="add">Add to existing (newest on top)</option><option value="replace">Replace whole gallery</option></select></div></div>
+<label for="mx">Largest side of gallery images</label><select id="mx"><option value="1600">1600 px (recommended)</option><option value="1200">1200 px (smaller files)</option><option value="2000">2000 px (sharper)</option></select>
+<p><button id="go" disabled>Convert &amp; publish</button></p><div id="log"></div></section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = (i) => document.getElementById(i);
+const P = 'fmd_up_';                                   // shares settings with /upload/
+const ld = (k) => { try { return localStorage.getItem(P + k) || ''; } catch (e) { return ''; } };
+const sv = (k, v) => { try { localStorage.setItem(P + k, v); } catch (e) {} };
+$('repo').value = ld('repo'); $('token').value = ld('token'); $('branch').value = ld('branch') || 'main';
+if (!ld('token')) $('settings').open = true;
+const cfg = () => ({ repo: $('repo').value.trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/\/+$/, ''),
+  branch: $('branch').value.trim() || 'main', token: $('token').value.trim() });
+const log = (m, c) => { const s = document.createElement('span'); if (c) s.className = c; s.textContent = m + '\n'; $('log').append(s); $('log').scrollTop = 1e9; };
+const kb = (n) => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'image';
+const rand = () => Math.random().toString(36).slice(2, 6);
+const b64 = (blob) => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = no; r.readAsDataURL(blob); });
+const txt = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, '')), (c) => c.charCodeAt(0)));
+
+async function api(path, o) {
+  const c = cfg(); o = o || {};
+  const r = await fetch('https://api.github.com/repos/' + c.repo + path, { method: o.method || 'GET',
+    headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + c.token, 'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' },
+    body: o.body ? JSON.stringify(o.body) : undefined });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(r.status === 401 ? 'Token rejected — create a new token.' : r.status === 404 ? 'Repository or branch not found, or the token has no access to it.' : (j.message || 'GitHub error ' + r.status)); e.status = r.status; throw e; }
+  return j;
+}
+
+/* ---------- collect pictures (files or zip) ---------- */
+let items = [];
+const imgOk = (n) => /\.(jpe?g|png|webp)$/i.test(n);
+function refresh(note) {
+  items.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+  const h = items.filter((i) => i.kind === 'hero').length, g = items.length - h;
+  $('scan').innerHTML = (items.length ? '<b>' + h + '</b> hero picture(s) · <b>' + g + '</b> gallery design(s)' : 'Nothing added yet.') + (note || '');
+  $('go').disabled = !items.length;
+}
+const add = (kind, name, e, size) => { if (!items.some((i) => i.kind === kind && i.name === name && i.size === size)) items.push({ kind, name, e, size }); };
+async function scanZip(file) {
+  $('scan').textContent = 'Reading zip…';
+  try {
+    const z = await JSZip.loadAsync(file); let skipped = 0;
+    z.forEach((path, e) => {
+      if (e.dir || /__MACOSX|(^|\/)\./.test(path)) return;
+      const seg = path.split('/'), name = seg.pop(), dirs = seg.map((x) => x.toLowerCase());
+      const kind = dirs.includes('hero') ? 'hero' : dirs.includes('gallery') ? 'gallery' : null;
+      if (kind && imgOk(name)) add(kind, name, e, e._data && e._data.uncompressedSize); else skipped++;
+    });
+    refresh(skipped ? ' · ' + skipped + ' zip file(s) ignored (not in a “hero” or “gallery” folder)' : '');
+  } catch (e) { refresh(' · That zip could not be read: ' + e.message); }
+}
+function addFiles(files, kind) {
+  let skipped = 0; const zips = [];
+  Array.from(files).forEach((f) => {
+    if (/\.zip$/i.test(f.name)) zips.push(f);
+    else if (imgOk(f.name)) add(kind, f.name, { async: () => Promise.resolve(f) }, f.size);
+    else skipped++;
+  });
+  refresh(skipped ? ' · ' + skipped + ' unsupported file(s) ignored' : '');
+  zips.forEach(scanZip);
+}
+[['dh', 'fh', 'hero'], ['dg', 'fg', 'gallery']].forEach(([d, f, kind]) => {
+  $(d).addEventListener('click', () => $(f).click());
+  $(d).addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $(f).click(); } });
+  $(f).addEventListener('change', (e) => { addFiles(e.target.files, kind); e.target.value = ''; });
+  ['dragenter', 'dragover'].forEach((t) => $(d).addEventListener(t, (e) => { e.preventDefault(); $(d).classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((t) => $(d).addEventListener(t, (e) => { e.preventDefault(); $(d).classList.remove('over'); }));
+  $(d).addEventListener('drop', (e) => addFiles(e.dataTransfer.files, kind));
+});
+$('zl').addEventListener('click', (e) => { e.preventDefault(); $('zip').click(); });
+$('zip').addEventListener('change', (e) => { addFiles(e.target.files, 'gallery'); e.target.value = ''; });
+$('clr').addEventListener('click', () => { items = []; refresh(); });
+refresh();
+
+/* ---------- convert to WebP ---------- */
+async function toWebp(blob, max, q) {
+  const bmp = await createImageBitmap(blob), s = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const w = Math.round(bmp.width * s), h = Math.round(bmp.height * s), c = document.createElement('canvas');
+  c.width = w; c.height = h; const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(bmp, 0, 0, w, h); bmp.close && bmp.close();
+  const out = await new Promise((r) => c.toBlob(r, 'image/webp', q));
+  if (!out || out.type !== 'image/webp') throw new Error('This browser cannot make WebP files. Please use Google Chrome or Edge.');
+  const res = (blob.type === 'image/webp' && s === 1 && blob.size <= out.size) ? blob : out;
+  return { blob: res, w, h };
+}
+
+/* ---------- publish ---------- */
+$('go').addEventListener('click', async () => {
+  const c = cfg(); $('log').textContent = '';
+  if (!c.repo || !c.token) { $('settings').open = true; return log('Please fill in the Connection settings first.', 'err'); }
+  const hm = $('hmode').value, gm = $('gmode').value, mx = +$('mx').value;
+  const hero = items.filter((i) => i.kind === 'hero'), gal = items.filter((i) => i.kind === 'gallery');
+  if ((hero.length && hm === 'replace' && !confirm('Replace ALL current hero pictures?')) || (gal.length && gm === 'replace' && !confirm('Replace the WHOLE gallery with these designs?'))) return;
+  $('go').disabled = true; ['repo', 'branch', 'token'].forEach((k) => sv(k, $(k).value.trim()));
+  try {
+    const tree = [], stamp = Date.now(); let inB = 0, outB = 0, n = 0;
+    const heroNames = [], galEntries = [];
+    for (const it of items) {
+      n++; const isH = it.kind === 'hero', src = await it.e.async('blob');
+      const cv = await toWebp(src, isH ? 1920 : mx, isH ? 0.72 : 0.8), out = cv.blob;
+      const base = it.name.replace(/\.[^.]+$/, ''), file = slug(base) + '-' + rand() + '.webp';
+      inB += src.size; outB += out.size;
+      log(n + '/' + items.length + '  ' + it.name + '  ' + kb(src.size) + ' → ' + kb(out.size));
+      const blob = await api('/git/blobs', { method: 'POST', body: { content: await b64(out), encoding: 'base64' } });
+      tree.push({ path: 'assets/images/' + (isH ? 'hero/' : 'gallery/') + file, mode: '100644', type: 'blob', sha: blob.sha });
+      if (isH) heroNames.push(file);
+      else galEntries.push({ src: file, w: cv.w, h: cv.h, title: base.replace(/[-_]+/g, ' ').trim(), date: new Date(stamp - galEntries.length * 1000).toISOString() });
+    }
+    const ref = '?ref=' + encodeURIComponent(c.branch);
+    if (gal.length) {
+      let cur = { images: [] };
+      if (gm === 'add') { try { cur = JSON.parse(txt((await api('/contents/gallery.json' + ref)).content)); } catch (e) { if (e.status !== 404) throw e; } }
+      cur.images = (Array.isArray(cur.images) && gm === 'add' ? cur.images : []).concat(galEntries);
+      tree.push({ path: 'gallery.json', mode: '100644', type: 'blob', content: JSON.stringify(cur, null, 2) + '\n' });
+    }
+    if (hero.length) {
+      let js = txt((await api('/contents/js/hero-config.js' + ref)).content);
+      const re = /^(\s*)images:\s*(\[[^\]]*\])/m, m = js.match(re);
+      if (!m) throw new Error('Could not find the “images:” list in js/hero-config.js.');
+      let list = heroNames;
+      if (hm === 'add') { try { list = JSON.parse(m[2]).concat(heroNames); } catch (e) { list = heroNames; } }
+      js = js.replace(re, (all, sp) => sp + 'images: ' + JSON.stringify(list));
+      tree.push({ path: 'js/hero-config.js', mode: '100644', type: 'blob', content: js });
+    }
+    log('Total: ' + kb(inB) + ' → ' + kb(outB) + '. Publishing…');
+    const head = await api('/git/ref/heads/' + encodeURIComponent(c.branch)), parent = head.object.sha;
+    const pc = await api('/git/commits/' + parent);
+    const t = await api('/git/trees', { method: 'POST', body: { base_tree: pc.tree.sha, tree } });
+    const cm = await api('/git/commits', { method: 'POST', body: { message: 'Site Updater: ' + hero.length + ' hero, ' + gal.length + ' gallery (WebP)', tree: t.sha, parents: [parent] } });
+    await api('/git/refs/heads/' + encodeURIComponent(c.branch), { method: 'PATCH', body: { sha: cm.sha } });
+    log('Done! Published in ONE commit. Your site updates in about a minute (hard-refresh with Ctrl+Shift+R).', 'ok');
+  } catch (e) { log('Stopped: ' + e.message, 'err'); }
+  $('go').disabled = !items.length;
+});
+})();
+</script></body></html>
