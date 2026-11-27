@@ -13,7 +13,7 @@ window.HERO_CONFIG = {
   seconds: 7,
 
   // Background pictures
-  images: ["hero-1.webp", "hero-2.webp", "hero-3.webp", "hero-4.webp"],
+  images: ["hero-1.webp", "about-photo.webp", "hero-3.webp", "hero-4.webp"],
 
   // The big word shown on each slide
   words: ["CONCEPTUALIZE", "DESIGN", "CREATE", "DELIVER"],

@@ -1,11 +1,10 @@
-/* Homepage only. Keeps the "idea to finished piece" steps in sync with js/hero-config.js (words + taglines). */
+/* Homepage only: slide counter + slide timer length, both driven by js/hero-config.js */
 (function () {
-  var C = window.HERO_CONFIG, steps = document.querySelectorAll(".steps li");
-  if (!C || !C.words || !steps.length) return;
-  steps.forEach(function (li, i) {
-    if (!C.words[i]) return;
-    var h = li.querySelector("h3"), p = li.querySelector("p");
-    if (h) h.textContent = C.words[i].charAt(0) + C.words[i].slice(1).toLowerCase();
-    if (p && C.taglines && C.taglines[i]) p.textContent = C.taglines[i];
-  });
+  var C = window.HERO_CONFIG || {}, d = document.querySelector(".dots"), cur = document.getElementById("cur"), n = document.getElementById("n"), t = document.getElementById("t");
+  if (d) d.style.setProperty("--dur", (C.seconds || 7) + "s");
+  var total = (C.images || []).length, pad = function (x) { return (x < 10 ? "0" : "") + x; };
+  if (t && total) t.textContent = "/ " + pad(total);
+  if (!cur || !n || !C.words) return;
+  var sync = function () { var i = C.words.indexOf(cur.textContent); if (i > -1) n.textContent = pad(i + 1); };
+  new MutationObserver(sync).observe(cur, { childList: true, characterData: true, subtree: true }); sync();
 })();
