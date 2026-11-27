@@ -59,3 +59,9 @@
 }
 @media(max-height:640px) and (min-width:901px){.count{display:none}#tag{margin-top:12px}.cta{margin-top:18px}}
 @media(prefers-reduced-motion:reduce){.hero .dots i.on::after{animation:none;transform:none}.hero .word{animation:none}}
+
+/* header strip: a soft tint of the brand orange (#FF6A00) */
+.site-header{background:#FFE0C7}
+.site-header::before{display:none}
+.site-header .brand-name b{color:#D95500}
+@media(max-width:900px){.nav{background:#FFE0C7}}
