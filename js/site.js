@@ -19,7 +19,7 @@ window.FMD_CONFIG = { whatsappNumber: "254724660864", email: "flexmediacreatives
   var hero = $(".hero");
   if (hero && window.HERO_CONFIG) {
     var C = window.HERO_CONFIG, imgs = C.images || [], i = 0, timer, slides = [], dots = $(".dots"), word = $(".word"), tag = $("#tag");
-    imgs.forEach(function (f, k) { var s = document.createElement("div"); s.className = "slide"; s.style.backgroundImage = "url('assets/images/hero/" + f + "')"; hero.insertBefore(s, hero.firstChild); slides.push(s); var d = document.createElement("i"); dots.appendChild(d); });
+    imgs.forEach(function (f, k) { var s = document.createElement("div"); s.className = "slide"; s.style.backgroundImage = "url('" + (f.indexOf("/") > -1 ? encodeURI(f) : "assets/images/hero/" + encodeURI(f)) + "')"; hero.insertBefore(s, hero.firstChild); slides.push(s); var d = document.createElement("i"); dots.appendChild(d); });
     var dts = $$("i", dots);
     var show = function (n) {
       i = (n + slides.length) % slides.length;
@@ -35,6 +35,7 @@ window.FMD_CONFIG = { whatsappNumber: "254724660864", email: "flexmediacreatives
   /* shared gallery data */
   var W = window.WORK_CONFIG || { cats: {}, assign: {} };
   function classify(it) {
+    if (it.cat && W.cats[it.cat]) return { cat: it.cat, service: it.service || W.cats[it.cat].title };
     var a = W.assign[it.src]; if (a) return { cat: a[0], service: a[1] };
     var t = (it.title || it.src).toLowerCase();
     if (/vote|elect|chair|secretar|treasur|nominee|candidate|campaign/.test(t)) return { cat: "campaign", service: "Flyers" };
@@ -51,6 +52,9 @@ window.FMD_CONFIG = { whatsappNumber: "254724660864", email: "flexmediacreatives
       return (d.images || d || []).filter(function (x) { return x && x.src; }).map(function (x) { var c = classify(x); x.cat = c.cat; x.service = c.service; x.url = "assets/images/gallery/" + encodeURI(x.src); return x; });
     });
   }
+
+  /* work page panel pictures (chosen in /admin-tool/) */
+  $$(".panels [data-count]").forEach(function (el) { var c = W.cats[el.dataset.count], p = el.closest(".panel"), b = p && $(".bg", p); if (c && c.bg && b) b.style.backgroundImage = "url('" + encodeURI(c.bg) + "')"; });
 
   /* work page counts */
   if ($(".panels")) load().then(function (items) { $$("[data-count]").forEach(function (el) { var n = items.filter(function (x) { return x.cat === el.dataset.count; }).length; el.textContent = n + (n === 1 ? " design" : " designs"); }); }).catch(function () { });
