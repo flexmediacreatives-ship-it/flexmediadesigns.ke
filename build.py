@@ -34,7 +34,7 @@ def head(title,desc,active,body_cls=""):
 <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav" aria-label="Main">{links}</nav></header>
 '''
 def foot(extra=""):
-    return f'''<footer class="site-footer">{socials}
+    return f'''<footer class="site-footer"><a class="brand" href="index.html" aria-label="FLEX MEDIA DESIGNS home"><img src="assets/images/flex-media-logo.webp" alt="" width="50" height="50"></a>{socials}
 <div class="fb"><span>© <span id="yr"></span> FLEX MEDIA DESIGNS</span><span>Designed By FLEX MEDIA</span></div></footer>
 {extra}<script src="js/work-config.js"></script><script src="js/hero-config.js"></script><script src="js/site.js"></script></body></html>'''
 def w(n,t): open(n,'w').write(t)
