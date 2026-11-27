@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gallery Manager — FLEX MEDIA DESIGNS</title>
+<link rel="icon" href="assets/images/flex-media-logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap">
+<style>
+  :root { --orange:#ff6a00; --brown:#32180f; --cream:#f6f0e6; --blue:#b9cfe3; --ink:#1a0f0a; --muted:#6f6760; --line:#e5ded4; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink); font-family:'Montserrat','Segoe UI',Arial,sans-serif; line-height:1.55; }
+  header { background:#fff; border-bottom:1px solid var(--line); }
+  .bar { max-width:980px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-weight:800; }
+  .brand img { width:38px; height:38px; object-fit:contain; }
+  .brand b { color:var(--orange); }
+  .back { font-size:13px; font-weight:700; color:var(--brown); text-decoration:none; }
+  .back:hover { color:var(--orange); }
+  main { max-width:980px; margin:0 auto; padding:30px 20px 80px; }
+  h1 { font-size:clamp(28px,4vw,40px); font-weight:800; margin:0 0 6px; letter-spacing:-.02em; }
+  h1 span { color:var(--orange); }
+  .lead { color:var(--muted); margin:0 0 26px; font-size:14px; }
+  .card { background:#fff; border-radius:20px; padding:24px; margin-bottom:20px; box-shadow:0 6px 18px rgba(50,24,15,.08); }
+  .card h2 { font-size:17px; font-weight:800; margin:0 0 4px; display:flex; align-items:center; gap:10px; }
+  .num { width:28px; height:28px; border-radius:50%; background:var(--orange); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:14px; flex:none; }
+  .hint { color:var(--muted); font-size:13px; margin:0 0 16px; }
+  label.f { display:block; font-size:12px; font-weight:700; margin:12px 0 5px; }
+  input[type=text], input[type=password] { width:100%; border:1px solid #d8cec3; border-radius:12px; padding:11px 13px; font:inherit; font-size:14px; background:#fff; color:var(--ink); }
+  input:focus-visible, button:focus-visible, summary:focus-visible, .drop:focus-within { outline:3px solid #244c78; outline-offset:2px; }
+  .row { display:grid; grid-template-columns:1.6fr 1fr; gap:14px; }
+  .btn { border:0; border-radius:999px; padding:12px 22px; font:inherit; font-weight:800; font-size:14px; cursor:pointer; background:var(--orange); color:var(--ink); transition:transform .15s, background .15s; }
+  .btn:hover:not(:disabled) { transform:translateY(-1px); background:#ff7f26; }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  .btn.alt { background:transparent; border:2px solid var(--brown); color:var(--brown); }
+  .btn.small { padding:7px 14px; font-size:12px; }
+  .btns { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  .status { margin:14px 0 0; font-size:13px; font-weight:600; min-height:1.2em; }
+  .status.ok { color:#17643a; } .status.err { color:#a83220; } .status.info { color:#244c78; }
+  details { margin-top:14px; font-size:13px; } summary { cursor:pointer; font-weight:700; color:#244c78; }
+  details ol { padding-left:20px; margin:10px 0 0; } details li { margin-bottom:6px; }
+  code { background:var(--cream); padding:1px 6px; border-radius:6px; font-size:12px; }
+  .check { display:flex; gap:8px; align-items:center; font-size:13px; margin-top:12px; }
+  .drop { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:6px; border:2px dashed #cdbfae; border-radius:18px; padding:34px 16px; cursor:pointer; background:#fffaf4; transition:background .2s, border-color .2s; }
+  .drop.over, .drop:hover { background:#fff1e3; border-color:var(--orange); }
+  .drop strong { font-size:16px; } .drop span { color:var(--muted); font-size:13px; }
+  .drop input { position:absolute; width:1px; height:1px; opacity:0; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; margin-top:18px; }
+  .item { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+  .thumb { background:#ece6dc; height:170px; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+  .thumb img { width:100%; height:100%; object-fit:contain; display:block; }
+  .item .body { padding:10px 12px 12px; display:flex; flex-direction:column; gap:8px; }
+  .item input[type=text] { padding:8px 10px; font-size:13px; border-radius:10px; }
+  .meta { font-size:11px; color:var(--muted); }
+  .x { position:absolute; top:8px; right:8px; width:30px; height:30px; border:0; border-radius:50%; background:rgba(26,15,10,.78); color:#fff; font-size:18px; line-height:1; cursor:pointer; }
+  .x:hover { background:#a83220; }
+  .tag { position:absolute; left:8px; top:8px; background:var(--orange); color:var(--ink); font-size:10px; font-weight:800; padding:3px 9px; border-radius:999px; }
+  .empty { color:var(--muted); font-size:13px; margin:14px 0 0; }
+  .prog { height:8px; border-radius:99px; background:var(--cream); overflow:hidden; margin-top:12px; display:none; }
+  .prog i { display:block; height:100%; width:0; background:var(--orange); transition:width .25s; }
+  @media (max-width:640px) { .row { grid-template-columns:1fr; } .card { padding:18px; } }
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <a class="brand" href="index.html"><img src="assets/images/flex-media-logo.webp" alt=""><span>Flex Media <b>Designs</b></span></a>
+  <a class="back" href="index.html">← Back to website</a>
+</div></header>
+
+<main>
+  <h1>Gallery <span>Manager</span></h1>
+  <p class="lead">Add designs to your <strong>Customers Gallery</strong>: choose the images, type a title for each, and publish. Newest designs always appear first on your website.</p>
+
+  <!-- 1. CONNECT -->
+  <section class="card" id="connect-card">
+    <h2><span class="num">1</span> Connect your website <small style="font-weight:600;color:var(--muted)">(one time)</small></h2>
+    <p class="hint" id="connect-hint">This lets the page publish straight to your website. You can skip this and use “Download files instead” in step 3.</p>
+    <div id="connect-form">
+      <div class="row">
+        <div><label class="f" for="repo">GitHub repository</label><input id="repo" type="text" placeholder="your-username/your-repository" autocomplete="off" spellcheck="false"></div>
+        <div><label class="f" for="branch">Branch</label><input id="branch" type="text" value="main" autocomplete="off" spellcheck="false"></div>
+      </div>
+      <label class="f" for="token">Access token</label>
+      <input id="token" type="password" placeholder="github_pat_…" autocomplete="off" spellcheck="false">
+      <label class="check"><input type="checkbox" id="remember" checked> Remember this on this device only</label>
+      <details>
+        <summary>How do I get an access token?</summary>
+        <ol>
+          <li>Sign in at <b>github.com</b> → click your picture → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+          <li>Give it a name (e.g. “Gallery Manager”) and choose an expiry date.</li>
+          <li>Under <b>Repository access</b> choose <b>Only select repositories</b> and pick your website’s repository.</li>
+          <li>Under <b>Permissions → Repository permissions</b> set <b>Contents</b> to <b>Read and write</b>.</li>
+          <li>Click <b>Generate token</b>, copy it, and paste it above. Keep it private — it works like a password for that one repository.</li>
+        </ol>
+      </details>
+      <div class="btns"><button class="btn" id="connect-btn" type="button">Save &amp; connect</button></div>
+    </div>
+    <div id="connected-box" hidden>
+      <p class="status ok" style="margin:0">✓ Connected to <b id="connected-repo"></b></p>
+      <div class="btns"><button class="btn alt small" id="disconnect-btn" type="button">Disconnect</button></div>
+    </div>
+    <p class="status" id="connect-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- 2. ADD -->
+  <section class="card">
+    <h2><span class="num">2</span> Add your designs</h2>
+    <p class="hint">Choose one or many images. Give each design a title (optional but recommended).</p>
+    <label class="drop" id="drop">
+      <input type="file" id="files" accept="image/*" multiple>
+      <strong>Tap or click to choose images</strong>
+      <span>or drag and drop them here · JPG, PNG, WEBP</span>
+    </label>
+    <label class="check"><input type="checkbox" id="optimise" checked> Make images web-friendly automatically (recommended — keeps the full shape, makes the site faster)</label>
+    <div class="grid" id="pending-grid"></div>
+    <p class="empty" id="pending-empty">No new designs selected yet.</p>
+  </section>
+
+  <!-- 3. PUBLISH -->
+  <section class="card">
+    <h2><span class="num">3</span> Publish</h2>
+    <p class="hint" id="publish-hint">Publishing adds the new designs to the top of your Customers Gallery.</p>
+    <div class="btns">
+      <button class="btn" id="publish-btn" type="button" disabled>Publish to website</button>
+      <button class="btn alt" id="zip-btn" type="button" disabled>Download files instead</button>
+    </div>
+    <div class="prog" id="prog"><i></i></div>
+    <p class="status" id="publish-status" role="status" aria-live="polite"></p>
+    <details id="zip-help" hidden>
+      <summary>What do I do with the downloaded file?</summary>
+      <ol>
+        <li>Unzip <code>gallery-update.zip</code>. Inside is a folder <code>assets/images/gallery/</code> with your new images, and a file <code>gallery.json</code>.</li>
+        <li>Copy them into your website project in the same places (replace the old <code>gallery.json</code>).</li>
+        <li>Upload / deploy your project as usual.</li>
+      </ol>
+    </details>
+  </section>
+
+  <!-- CURRENT GALLERY -->
+  <section class="card">
+    <h2>Your gallery right now</h2>
+    <p class="hint" id="existing-hint">Edit a title or remove a design, then press Publish to save the change.</p>
+    <div class="btns" style="margin-top:0">
+      <label class="btn alt small" style="display:inline-block">Load gallery.json from file<input type="file" id="json-file" accept=".json,application/json" hidden></label>
+    </div>
+    <div class="grid" id="existing-grid"></div>
+    <p class="empty" id="existing-empty">Nothing in the gallery yet.</p>
+  </section>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const FOLDER = 'assets/images/gallery/';
+  const KEY = 'fmd_gallery_manager';
+  const $ = (s) => document.querySelector(s);
+  const state = { existing: [], pending: [], dirty: false, cfg: null, existingLoaded: false, nextId: 1 };
+
+  /* ---------- helpers ---------- */
+  const setStatus = (el, msg, kind) => { el.textContent = msg || ''; el.className = 'status' + (kind ? ' ' + kind : ''); };
+  const slug = (t) => String(t || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'design';
+  const stamp = () => { const d = new Date(), p = (n, l = 2) => String(n).padStart(l, '0'); return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()); };
+  const kb = (n) => n > 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  const toSrc = (v) => { v = String(v || '').trim(); if (!v) return ''; if (/^https?:\/\//i.test(v)) return v; v = v.replace(/^\/+/, ''); return v.includes('/') ? v : FOLDER + v; };
+  const utf8ToB64 = (str) => { const b = new TextEncoder().encode(str); let s = ''; b.forEach((c) => { s += String.fromCharCode(c); }); return btoa(s); };
+  const b64ToUtf8 = (b64) => { const bin = atob(b64.replace(/\s/g, '')); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return new TextDecoder().decode(a); };
+  const blobToB64 = (blob) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+  const blobToBytes = async (blob) => new Uint8Array(await blob.arrayBuffer());
+
+  const normaliseList = (data) => (Array.isArray(data && data.images) ? data.images : []).map((e) => {
+    const o = typeof e === 'string' ? { src: e } : (e || {});
+    const out = { src: String(o.src || o.image || '').trim(), title: String(o.title || '').trim() };
+    if (o.date) out.date = o.date;
+    return out;
+  }).filter((e) => e.src);
+
+  /* ---------- saved connection ---------- */
+  const loadCfg = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
+  const saveCfg = (c) => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) { /* ignore */ } };
+  const clearCfg = () => { try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } };
+
+  /* ---------- GitHub ---------- */
+  async function gh(path, { method = 'GET', body, query = '' } = {}) {
+    const c = state.cfg;
+    const res = await fetch('https://api.github.com/repos/' + c.repo + '/contents/' + path.split('/').map(encodeURIComponent).join('/') + query, {
+      method, cache: 'no-store',
+      headers: { Authorization: 'Bearer ' + c.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (res.ok) return res.json();
+    let detail = ''; try { detail = (await res.json()).message || ''; } catch (e) { /* ignore */ }
+    const err = new Error(detail || ('GitHub error ' + res.status)); err.status = res.status; throw err;
+  }
+  const explain = (e) => {
+    if (e.status === 401) return 'GitHub did not accept the token. Check it was copied fully and has not expired.';
+    if (e.status === 403) return 'The token is not allowed to change this repository. Make sure it has “Contents: Read and write”.';
+    if (e.status === 404) return 'Repository or branch not found. Check the repository name (owner/name) and branch, and that the token can access it.';
+    if (e.status === 409 || e.status === 422) return 'The website changed while publishing. Please press Publish again.';
+    return e.message || 'Something went wrong.';
+  };
+
+  async function loadExisting() {
+    const hint = $('#existing-hint');
+    try {
+      let data;
+      if (state.cfg) {
+        try { const f = await gh('gallery.json', { query: '?ref=' + encodeURIComponent(state.cfg.branch) }); data = JSON.parse(b64ToUtf8(f.content)); }
+        catch (e) { if (e.status === 404) data = { images: [] }; else throw e; }
+      } else {
+        const r = await fetch('gallery.json', { cache: 'no-store' });
+        if (!r.ok) throw new Error('not found'); data = await r.json();
+      }
+      state.existing = normaliseList(data); state.existingLoaded = true; state.dirty = false;
+      hint.textContent = 'Edit a title or remove a design, then press Publish to save the change.';
+    } catch (e) {
+      state.existing = []; state.existingLoaded = false;
+      hint.textContent = state.cfg ? ('Could not load the current gallery: ' + explain(e)) : 'Could not load your current gallery from here. Connect in step 1, or use “Load gallery.json from file” so existing designs are kept.';
+    }
+    renderExisting(); refreshButtons();
+  }
+
+  /* ---------- rendering ---------- */
+  function renderPending() {
+    const g = $('#pending-grid'); g.textContent = '';
+    state.pending.forEach((p) => {
+      const card = document.createElement('div'); card.className = 'item';
+      const th = document.createElement('div'); th.className = 'thumb';
+      const img = document.createElement('img'); img.src = p.url; img.alt = '';
+      const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = 'NEW';
+      const x = document.createElement('button'); x.type = 'button'; x.className = 'x'; x.setAttribute('aria-label', 'Remove this image'); x.textContent = '×';
+      x.addEventListener('click', () => { URL.revokeObjectURL(p.url); state.pending = state.pending.filter((q) => q.id !== p.id); renderPending(); refreshButtons(); });
+      th.append(img, tag, x);
+      const body = document.createElement('div'); body.className = 'body';
+      const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = 'Title of this design'; inp.maxLength = 120; inp.value = p.title; inp.setAttribute('aria-label', 'Title for ' + p.file.name);
+      inp.addEventListener('input', () => { p.title = inp.value; });
+      const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = p.file.name + ' · ' + kb(p.file.size);
+      body.append(inp, meta); card.append(th, body); g.append(card);
+    });
+    $('#pending-empty').hidden = state.pending.length > 0;
+  }
+
+  function renderExisting() {
+    const g = $('#existing-grid'); g.textContent = '';
+    state.existing.forEach((e, i) => {
+      const card = document.createElement('div'); card.className = 'item';
+      const th = document.createElement('div'); th.className = 'thumb';
+      const img = document.createElement('img'); img.src = toSrc(e.src); img.alt = ''; img.loading = 'lazy';
+      const x = document.createElement('button'); x.type = 'button'; x.className = 'x'; x.setAttribute('aria-label', 'Remove from gallery'); x.textContent = '×';
+      x.addEventListener('click', () => { if (confirm('Remove this design from the gallery?\n(The image file itself is not deleted.)')) { state.existing.splice(i, 1); state.dirty = true; renderExisting(); refreshButtons(); } });
+      th.append(img, x);
+      const body = document.createElement('div'); body.className = 'body';
+      const inp = document.createElement('input'); inp.type = 'text'; inp.value = e.title; inp.placeholder = 'Title'; inp.maxLength = 120; inp.setAttribute('aria-label', 'Title');
+      inp.addEventListener('input', () => { e.title = inp.value; state.dirty = true; refreshButtons(); });
+      const meta = document.createElement('div'); meta.className = 'meta'; meta.textContent = e.src.split('/').pop();
+      body.append(inp, meta); card.append(th, body); g.append(card);
+    });
+    $('#existing-empty').hidden = state.existing.length > 0;
+  }
+
+  function refreshButtons() {
+    const has = state.pending.length > 0 || state.dirty;
+    $('#publish-btn').disabled = !(has && state.cfg);
+    $('#zip-btn').disabled = !has;
+    $('#publish-hint').textContent = state.cfg
+      ? 'Publishing adds the new designs to the top of your Customers Gallery.'
+      : 'Not connected: use “Download files instead”, or connect in step 1 to publish directly.';
+  }
+
+  function showConnected() {
+    const on = !!state.cfg;
+    $('#connect-form').hidden = on; $('#connected-box').hidden = !on;
+    if (on) { $('#connected-repo').textContent = state.cfg.repo + ' (' + state.cfg.branch + ')'; $('#connect-hint').textContent = 'Publishing goes straight to your website.'; }
+    else $('#connect-hint').textContent = 'This lets the page publish straight to your website. You can skip this and use “Download files instead” in step 3.';
+  }
+
+  /* ---------- images ---------- */
+  async function processImage(file, optimise) {
+    const orig = (file.name.split('.').pop() || 'jpg').toLowerCase().replace('jpeg', 'jpg');
+    const ext = ['jpg', 'png', 'webp', 'gif'].includes(orig) ? orig : 'jpg';
+    if (!optimise || file.type === 'image/gif') return { blob: file, ext };
+    try {
+      const bmp = await createImageBitmap(file);
+      const sc = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+      const w = Math.round(bmp.width * sc), h = Math.round(bmp.height * sc);
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(bmp, 0, 0, w, h);
+      const blob = await new Promise((r) => c.toBlob(r, 'image/jpeg', 0.86));
+      if (blob && blob.size < file.size) return { blob, ext: 'jpg' };
+    } catch (e) { /* fall back to the original */ }
+    return { blob: file, ext };
+  }
+
+  function addFiles(list) {
+    Array.from(list).filter((f) => /^image\//.test(f.type)).forEach((f) => {
+      const base = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+      state.pending.push({ id: state.nextId++, file: f, title: base, url: URL.createObjectURL(f) });
+    });
+    renderPending(); refreshButtons();
+  }
+
+  /* Prepares new images + the final gallery.json text. */
+  async function prepare(onProgress) {
+    const optimise = $('#optimise').checked, now = new Date(), prepared = [], newEntries = [];
+    for (let i = 0; i < state.pending.length; i++) {
+      const p = state.pending[i];
+      const { blob, ext } = await processImage(p.file, optimise);
+      const name = slug(p.title) + '-' + stamp() + '-' + (i + 1) + '.' + ext;
+      prepared.push({ name, blob, title: p.title.trim() });
+      newEntries.push({ src: name, title: p.title.trim(), date: new Date(now.getTime() + i).toISOString() });
+      if (onProgress) onProgress((i + 1) / (state.pending.length * 2));
+    }
+    const finalList = state.existing.map((e) => { const o = { src: e.src, title: e.title.trim() }; if (e.date) o.date = e.date; return o; }).concat(newEntries);
+    return { prepared, json: JSON.stringify({ images: finalList }, null, 2) + '\n', finalList };
+  }
+
+  const setProg = (f) => { const p = $('#prog'); p.style.display = f == null ? 'none' : 'block'; if (f != null) p.firstElementChild.style.width = Math.round(f * 100) + '%'; };
+
+  /* ---------- publish to GitHub (ONE commit => ONE deployment) ---------- */
+  async function git(path, method, body) {
+    const res = await fetch('https://api.github.com/repos/' + state.cfg.repo + '/git/' + path, {
+      method, cache: 'no-store',
+      headers: { Authorization: 'Bearer ' + state.cfg.token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (res.ok) return res.json();
+    let detail = ''; try { detail = (await res.json()).message || ''; } catch (e) { /* ignore */ }
+    const err = new Error(detail || ('GitHub error ' + res.status)); err.status = res.status; throw err;
+  }
+
+  async function publish() {
+    const st = $('#publish-status'), btn = $('#publish-btn'), zbtn = $('#zip-btn');
+    btn.disabled = zbtn.disabled = true; setStatus(st, 'Preparing images…', 'info'); setProg(0);
+    try {
+      const { prepared, json, finalList } = await prepare(setProg);
+      const refPath = 'heads/' + state.cfg.branch.split('/').map(encodeURIComponent).join('/');
+      setStatus(st, 'Contacting GitHub…', 'info');
+      const ref = await git('ref/' + refPath, 'GET');
+      const parent = ref.object.sha;
+      const parentCommit = await git('commits/' + parent, 'GET');
+      const tree = [];
+      for (let i = 0; i < prepared.length; i++) {
+        setStatus(st, 'Uploading image ' + (i + 1) + ' of ' + prepared.length + '…', 'info');
+        const blob = await git('blobs', 'POST', { content: await blobToB64(prepared[i].blob), encoding: 'base64' });
+        tree.push({ path: FOLDER + prepared[i].name, mode: '100644', type: 'blob', sha: blob.sha });
+        setProg(0.5 + 0.4 * ((i + 1) / prepared.length));
+      }
+      setStatus(st, 'Updating the gallery list…', 'info');
+      const jblob = await git('blobs', 'POST', { content: json, encoding: 'utf-8' });
+      tree.push({ path: 'gallery.json', mode: '100644', type: 'blob', sha: jblob.sha });
+      const newTree = await git('trees', 'POST', { base_tree: parentCommit.tree.sha, tree });
+      const n = prepared.length;
+      const message = n ? ('Add ' + n + ' gallery design' + (n > 1 ? 's' : '') + (n === 1 && prepared[0].title ? ': ' + prepared[0].title : '')) : 'Update Customers Gallery';
+      const commit = await git('commits', 'POST', { message, tree: newTree.sha, parents: [parent] });
+      await git('refs/' + refPath, 'PATCH', { sha: commit.sha });
+      setProg(1);
+      state.pending.forEach((p) => URL.revokeObjectURL(p.url)); state.pending = []; state.existing = finalList; state.dirty = false;
+      renderPending(); renderExisting();
+      setStatus(st, '✓ Published! Your website will show the update in about a minute, once your host finishes deploying.', 'ok');
+    } catch (e) { setStatus(st, 'Could not publish: ' + explain(e), 'err'); }
+    setTimeout(() => setProg(null), 1200); refreshButtons();
+  }
+
+  /* ---------- download package (zip, no libraries) ---------- */
+  const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+  const crc32 = (b) => { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  function buildZip(files) {
+    const enc = new TextEncoder(), d = new Date();
+    const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+    const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    const chunks = [], central = []; let offset = 0;
+    files.forEach((f) => {
+      const name = enc.encode(f.name), crc = crc32(f.data), size = f.data.length;
+      const lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+      lh.setUint16(10, time, true); lh.setUint16(12, date, true); lh.setUint32(14, crc, true); lh.setUint32(18, size, true); lh.setUint32(22, size, true);
+      lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+      chunks.push(new Uint8Array(lh.buffer), name, f.data);
+      const ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true);
+      ch.setUint16(12, time, true); ch.setUint16(14, date, true); ch.setUint32(16, crc, true); ch.setUint32(20, size, true); ch.setUint32(24, size, true);
+      ch.setUint16(28, name.length, true); ch.setUint32(42, offset, true);
+      central.push(new Uint8Array(ch.buffer), name);
+      offset += 30 + name.length + size;
+    });
+    const cdSize = central.reduce((n, c) => n + c.length, 0);
+    const end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, offset, true);
+    return new Blob([...chunks, ...central, new Uint8Array(end.buffer)], { type: 'application/zip' });
+  }
+
+  async function downloadPackage() {
+    const st = $('#publish-status');
+    if (!state.existingLoaded && !confirm('I could not load your current gallery list, so the new gallery.json will contain ONLY the designs added now (older ones would be dropped if you replace your file).\n\nTip: press “Load gallery.json from file” first.\n\nContinue anyway?')) return;
+    $('#publish-btn').disabled = $('#zip-btn').disabled = true; setStatus(st, 'Preparing your files…', 'info'); setProg(0);
+    try {
+      const { prepared, json, finalList } = await prepare(setProg);
+      const files = [];
+      for (const p of prepared) files.push({ name: FOLDER + p.name, data: await blobToBytes(p.blob) });
+      files.push({ name: 'gallery.json', data: new TextEncoder().encode(json) });
+      const blob = buildZip(files), a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'gallery-update.zip'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      state.pending.forEach((p) => URL.revokeObjectURL(p.url)); state.pending = []; state.existing = finalList; state.dirty = false; state.existingLoaded = true;
+      renderPending(); renderExisting(); $('#zip-help').hidden = false; $('#zip-help').open = true;
+      setProg(1); setStatus(st, '✓ Downloaded gallery-update.zip — see the steps below.', 'ok');
+    } catch (e) { setStatus(st, 'Could not prepare the files: ' + (e.message || e), 'err'); }
+    setTimeout(() => setProg(null), 1200); refreshButtons();
+  }
+
+  /* ---------- events ---------- */
+  $('#files').addEventListener('change', (e) => { addFiles(e.target.files); e.target.value = ''; });
+  const drop = $('#drop');
+  ['dragenter', 'dragover'].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((t) => drop.addEventListener(t, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => addFiles(e.dataTransfer.files));
+  $('#publish-btn').addEventListener('click', publish);
+  $('#zip-btn').addEventListener('click', downloadPackage);
+
+  $('#json-file').addEventListener('change', async (e) => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    try { state.existing = normaliseList(JSON.parse(await f.text())); state.existingLoaded = true; state.dirty = false; $('#existing-hint').textContent = 'Loaded from ' + f.name + '.'; renderExisting(); refreshButtons(); }
+    catch (err) { $('#existing-hint').textContent = 'That file could not be read as a gallery.json.'; }
+  });
+
+  $('#connect-btn').addEventListener('click', async () => {
+    const repo = $('#repo').value.trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/\/+$/, '');
+    const branch = $('#branch').value.trim() || 'main', token = $('#token').value.trim(), st = $('#connect-status');
+    if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) return setStatus(st, 'Enter the repository as owner/name, e.g. flexmedia/website.', 'err');
+    if (!token) return setStatus(st, 'Paste your access token.', 'err');
+    state.cfg = { repo, branch, token }; setStatus(st, 'Checking…', 'info');
+    try {
+      await gh('', { query: '?ref=' + encodeURIComponent(branch) });
+      if ($('#remember').checked) saveCfg(state.cfg); else clearCfg();
+      setStatus(st, '', ''); showConnected(); $('#token').value = ''; await loadExisting();
+    } catch (e) { state.cfg = null; setStatus(st, explain(e), 'err'); }
+  });
+  $('#disconnect-btn').addEventListener('click', async () => { state.cfg = null; clearCfg(); showConnected(); await loadExisting(); });
+
+  window.addEventListener('beforeunload', (e) => { if (state.pending.length) { e.preventDefault(); e.returnValue = ''; } });
+
+  /* ---------- start ---------- */
+  state.cfg = loadCfg(); if (state.cfg) { $('#repo').value = state.cfg.repo; $('#branch').value = state.cfg.branch; }
+  showConnected(); renderPending(); loadExisting();
+  window.FMD_GM = { state, buildZip, prepare };   // (used for testing)
+})();
+</script>
+</body>
+</html>
