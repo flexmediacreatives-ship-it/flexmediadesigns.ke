@@ -1,7 +1,7 @@
 /* FLEX MEDIA DESIGNS - orange, royal blue, navy and sand theme. Colours and fonts are the variables just below. */
 :root{
 /* FLEX MEDIA brand colours (taken from the Flex Media Designs flyer), each with its shades */
---orange:#FF6A00;--orange-lt:#FF9147;--orange-tint:#FFE6D2;--orange-dk:#C24A00;
+--orange:#FF6A00;--orange-lt:#FF9147;--orange-tint:#FFE6D2;--orange-dk:#B84300;
 --blue:#0A38B5;--blue-lt:#3D66DB;--blue-tint:#E3EAFB;
 --navy:#061456;--navy-dk:#000828;--steel:#204878;
 --sand:#D2C3A6;--cream:#F6F0E6;--cream2:#EDE3D3;--soft:#FFFDF8;
@@ -95,6 +95,24 @@ h1,h2,h3{font-family:var(--font);text-transform:uppercase;letter-spacing:-.02em;
 .site-footer p{max-width:520px;color:var(--muted);font-size:.92rem}.fb{display:flex;gap:14px;flex-wrap:wrap;width:100%;max-width:1250px;border-top:1px solid rgba(50,24,15,.15);padding-top:22px;font:700 11px/1.6 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);justify-content:center}
 .fb span+span::before{content:"•";margin-right:14px;color:var(--orange)}
 .reveal{opacity:0;transform:translateY(28px);transition:.8s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
+/* ===== Inner pages (services, work, gallery, contact): one text system that never clashes =====
+   Navy for text, slate-blue for secondary text, deep orange for small accents (all pass contrast),
+   royal blue for links and active states, orange kept for buttons, rules and edges.
+   The homepage and the footer keep their original colours (home.css resets the variables). */
+main,.lb{--ink:#0A1445;--muted:#4B5577}
+main :focus-visible{outline-color:var(--blue)}
+main .eyebrow,main .card small,main .status{color:var(--orange-dk)}
+main .work-intro p{color:var(--ink)}
+main .btn{color:var(--navy)}main .btn:hover{color:#fff}
+main .btn.ghost{color:var(--ink)}main .btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+main .svc a.more{color:var(--blue)}main .svc a.more:hover{color:var(--orange-dk)}
+main .cta-band .btn{background:var(--orange);border-color:var(--orange);color:var(--navy)}main .cta-band .btn:hover{background:#fff;border-color:#fff;color:var(--navy)}
+main .panel::after{background:var(--navy)}main .panel h2{color:#fff}main .panel .cnt{color:var(--orange-lt)}
+main .chips button:hover{border-color:var(--blue);color:var(--blue)}
+main .tile .cap{background:var(--navy);color:#fff}main .tile .cap em{color:var(--orange-lt)}
+main .form input:focus,main .form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(10,56,181,.16)}
+main .sv span:hover,main a.card:hover{border-color:var(--blue)}
+.lb{background:rgba(0,8,40,.96)}.lb .t{color:#fff}.lb .t em{color:var(--orange-lt)}.lb .ord{color:var(--navy)}
 @media(max-width:900px){
  .burger{display:block}.nav{position:fixed;inset:0;background:var(--soft);flex-direction:column;justify-content:center;align-items:center;gap:30px;opacity:0;visibility:hidden;transition:.35s;z-index:90}.nav a{font-size:18px}.menu-open .nav{opacity:1;visibility:visible}
  .panels{flex-direction:column;height:auto;max-height:none}.panel,.panel:first-child,.panel:last-child{width:100%;margin:0;height:470px;clip-path:polygon(0 0,100% 0,100% calc(100% - 28px),0 100%);padding:0 24px 44px}.panel:last-child{clip-path:none;height:450px}.panel+.panel{margin-top:-28px;padding-top:28px;clip-path:polygon(0 28px,100% 0,100% calc(100% - 28px),0 100%)}.panel:last-child{clip-path:polygon(0 28px,100% 0,100% 100%,0 100%)}

@@ -59,3 +59,6 @@
 }
 @media(max-height:640px) and (min-width:901px){.count{display:none}#tag{margin-top:12px}.cta{margin-top:18px}}
 @media(prefers-reduced-motion:reduce){.hero .dots i.on::after{animation:none;transform:none}.hero .word{animation:none}}
+
+/* homepage keeps its original text colours */
+main{--ink:#261913;--muted:#6f655c}
