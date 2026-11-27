@@ -60,14 +60,14 @@ h1,h2,h3{font-family:var(--font);text-transform:uppercase;letter-spacing:-.02em;
 .cta-band h2{font-size:clamp(1.4rem,3vw,2.2rem);color:#fff}.cta-band .btn{background:var(--cream);border-color:var(--cream);color:var(--orange)}.cta-band .btn:hover{background:var(--brown);border-color:var(--brown);color:#fff}
 /* work panels (text sits on photos, so it stays light) */
 .panels{--s:6vw;display:flex;height:100vh;height:100svh;min-height:560px;max-height:820px;background:var(--cream);overflow:hidden}
-.panel{position:relative;flex:none;width:calc(25% + var(--s));margin-left:calc(-1 * var(--s));overflow:hidden;clip-path:polygon(var(--s) 0,100% 0,calc(100% - var(--s)) 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:0 calc(var(--s) + 14px) 40px calc(34px + var(--s) / 2);color:var(--ink)}
+.panel{position:relative;flex:none;width:calc(25% + var(--s));margin-left:calc(-1 * var(--s));overflow:hidden;clip-path:polygon(var(--s) 0,100% 0,calc(100% - var(--s)) 100%,0 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:0 calc(var(--s) + 14px) 30px calc(34px + var(--s) / 2);color:var(--ink)}
 .panel:first-child{width:calc(25% + var(--s) / 2);padding-left:34px;margin-left:0;clip-path:polygon(0 0,100% 0,calc(100% - var(--s)) 100%,0 100%)}.panel:last-child{width:calc(25% + var(--s) / 2);clip-path:polygon(var(--s) 0,100% 0,100% 100%,0 100%)}
 .panel .bg{position:absolute;inset:-2%;background-size:cover;background-position:center top;transition:transform .9s}.panel:hover .bg{transform:scale(1.08)}
-.panel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:255px;background:var(--cream)}
-.panel>*:not(.bg){position:relative;z-index:2}.panel h2{color:var(--ink);font-weight:900;font-size:clamp(1.5rem,3.3vw,3rem);letter-spacing:-.06em;line-height:.95}
+.panel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:185px;background:var(--cream)}
+.panel>*:not(.bg){position:relative;z-index:2}.panel h2{color:var(--ink);font-weight:900;font-size:clamp(1.2rem,2.2vw,2rem);letter-spacing:-.04em;line-height:1}
 .panel:not(:last-child)::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:var(--orange);clip-path:polygon(calc(100% - 9px) 0,100% 0,calc(100% - var(--s)) 100%,calc(100% - var(--s) - 9px) 100%)}
 .panel:nth-child(2)::before{background:#fff}
-.panel .cnt{font:700 11px/1 var(--font);letter-spacing:.26em;color:#c24a00;text-transform:uppercase;margin:12px 0 18px}.panel .btn{align-self:flex-start;padding:15px 22px}
+.panel .cnt{font:700 11px/1 var(--font);letter-spacing:.26em;color:#c24a00;text-transform:uppercase;margin:10px 0 14px}.panel .btn{align-self:flex-start;padding:12px 18px;font-size:11px}
 .work-intro{max-width:900px;margin:0 auto;padding:80px var(--pad)}.work-intro h2{font-size:clamp(2rem,4vw,3rem)}.work-intro p{font-size:clamp(1.15rem,2.2vw,1.7rem);font-weight:400;margin-top:34px;color:var(--brown);line-height:1.5}
 /* gallery */
 .chips{display:flex;gap:10px;flex-wrap:wrap;max-width:1400px;margin:0 auto 34px}.chips button{background:var(--soft);color:var(--ink);border:1.5px solid var(--border);padding:11px 20px;font:800 11px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;transition:.25s}
@@ -122,7 +122,7 @@ main .page-hero:has(+ .section .cwrap){padding-bottom:30px}main .section:has(.cw
 @media(max-width:900px){
  .burger{display:block}.nav{position:fixed;inset:0;background:var(--soft);flex-direction:column;justify-content:center;align-items:center;gap:30px;opacity:0;visibility:hidden;transition:.35s;z-index:90}.nav a{font-size:18px}.menu-open .nav{opacity:1;visibility:visible}
  .panels{flex-direction:column;height:auto;max-height:none}.panel,.panel:first-child,.panel:last-child{width:100%;margin:0;height:470px;clip-path:polygon(0 0,100% 0,100% calc(100% - 28px),0 100%);padding:0 24px 44px}.panel:last-child{clip-path:none;height:450px}.panel+.panel{margin-top:-28px;padding-top:28px;clip-path:polygon(0 28px,100% 0,100% calc(100% - 28px),0 100%)}.panel:last-child{clip-path:polygon(0 28px,100% 0,100% 100%,0 100%)}
- .panel::after{height:205px}
+ .panel::after{height:150px}
  .panel:not(:last-child)::before{clip-path:polygon(0 calc(100% - 8px),100% calc(100% - 36px),100% calc(100% - 28px),0 100%)}
  .contact{grid-template-columns:1fr}.hero-cap{bottom:90px}.hero .socials{bottom:26px}.dots{bottom:30px;left:var(--pad);transform:none}.word{letter-spacing:.2em}
 }
