@@ -26,11 +26,11 @@
       position: relative !important;
       isolation: isolate;
       overflow: hidden;
-      box-shadow: 0 7px 18px rgba(20, 38, 55, .18);
+      box-shadow: 0 7px 18px rgba(6, 20, 86, .18);
       transition: box-shadow .2s ease, transform .2s ease;
     }
     #service-grid .service-design-card:hover {
-      box-shadow: 0 11px 25px rgba(20, 38, 55, .25);
+      box-shadow: 0 11px 25px rgba(6, 20, 86, .25);
     }
     #service-grid .service-design-card::before {
       content: "";
@@ -51,7 +51,7 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(135deg, rgba(15, 13, 12, .72), rgba(15, 13, 12, .48));
+      background: linear-gradient(135deg, rgba(0, 8, 40, .78), rgba(10, 56, 181, .45));
       pointer-events: none;
     }
     #service-grid .service-design-card,
@@ -73,7 +73,7 @@
       padding: .55rem .85rem;
       border: 1px solid rgba(255,255,255,.8);
       border-radius: 999px;
-      background: rgba(20,18,17,.72);
+      background: rgba(6,20,86,.78);
       color: #fff;
       font: inherit;
       font-size: .88rem;
@@ -99,7 +99,7 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background: rgba(8,8,8,.88);
+      background: rgba(0,8,40,.92);
     }
     .service-design-lightbox .service-design-dialog {
       position: relative;
